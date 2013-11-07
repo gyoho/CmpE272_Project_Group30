@@ -1,11 +1,63 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<head>
+  <style>
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+  </style>
+  <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.7.2.min.js"></script>
+  <script src="javascripts/index.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+  <title><%= title %></title>
+</head>
+<body>
+  <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+
+      <a class="navbar-brand" href="#"><%= title %></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav"></ul>
+      
+      <ul class="nav navbar-nav navbar-right"></ul>
+    </div><!-- /.navbar-collapse -->
+  </nav>
+
+  <div class="col-lg-offset-1 col-lg-9">
+    <div class="well">
+      <div id="container"></div>
+    </div>
+
+    <div class="well">
+      <!-- Split button -->
+      <div class="col-lg-offset-9">
+        <div class="btn-group">
+          <button type="button" class="btn ">Action</button>
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">New Rev</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Rev1</a></li>
+            <li><a href="#">Rev2</a></li>
+            <li><a href="#">Rev3</a></li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-default">Save</button>
+      </div>
+    </div>
+  </div>
+
+
+</body>
 </html>
