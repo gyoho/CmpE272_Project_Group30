@@ -1,8 +1,8 @@
 function drawImage(imageObj) {
   var stage = new Kinetic.Stage({
     container: "container",
-    width: 578,
-    height: 200
+    width: 800,
+    height: 500
   });
   var layer = new Kinetic.Layer();
 
