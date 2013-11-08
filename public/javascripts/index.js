@@ -31,4 +31,4 @@ var imageObj = new Image();
 imageObj.onload = function() {
   drawImage(this);
 };
-//imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
+imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
