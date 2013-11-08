@@ -3,4 +3,13 @@
 	background-color: lightgray;
 	border-radius: 20px;
 	border: 10px solid black;
+	height:600px;
+	width:800px;
+}
+#toolbox {
+	background-color: lightgray;
+	border-radius: 20px;
+	border: 10px solid black;
+//	height:600px;
+//	width:800px;
 }
