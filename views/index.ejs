@@ -20,68 +20,79 @@
   <nav class="navbar navbar-default" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
       <a class="navbar-brand" href="#"><%= title %></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
-      <ul class="nav navbar-nav"></ul>
+    <div id="navbar-collapse-1" class="collapse navbar-collapse navbar-ex1-collapse">
       
-      <ul class="nav navbar-nav navbar-right"></ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><button type="button" class="btn btn-default btn-lg">
+         <span class="glyphicon glyphicon-arrow-left"></span>
+         </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-default btn-lg">
+           <span class="glyphicon glyphicon-arrow-right"></span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-file"></span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-upload"></span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-share"></span>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn btn-default btn-lg">
+            <span class="glyphicon glyphicon-save"></span>
+          </button>
+        </li>
+        <li class="btn-group">
+          <button type="button" class="btn ">Action</button>
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">New Rev</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Rev1</a></li>
+            <li><a href="#">Rev2</a></li>
+            <li><a href="#">Rev3</a></li>
+          </ul>
+          <button type="button" class="btn btn-default">Save</button>
+        </li>
+      </ul>
     </div><!-- /.navbar-collapse -->
   </nav>
 
-<!--  <div class="col-lg-offset-1 col-lg-9">
-    <div class="" id="featurebox"></div>
-    <div class="">
-      <div id="container"></div>
-    </div>
-    <div class="" id="toolbox">
-    	<ul>
-    		<li>ONE</li>
-    		<li>two</li>
-    		<li>C</li>
-    	</ul>
-    </div>
--->
 
-  <div id="featurebox">
-    <div><button type="button" class="btn btn-default btn-lg">
-         <span class="glyphicon glyphicon-arrow-left"></span>
-         </button>
-    </div>
-    <div><button type="button" class="btn btn-default btn-lg">
-         <span class="glyphicon glyphicon-arrow-right"></span>
-         </button>
-    </div>
-    <div><button type="button" class="btn btn-default btn-lg">
-         <span class="glyphicon glyphicon-pencil"></span>
-         </button>
-    </div>
-    <div><button type="button" class="btn btn-default btn-lg">
-         <span class="glyphicon glyphicon-file"></span>
-         </button>
-    </div>
-    <div><button type="button" class="btn btn-default btn-lg">
-         <span class="glyphicon glyphicon-upload"></span>
-         </button>
-    </div>
-    <div><button type="button" class="btn btn-default btn-lg">
-         <span class="glyphicon glyphicon-share"></span>
-         </button>
-    </div>
-    <div><button type="button" class="btn btn-default btn-lg">
-         <span class="glyphicon glyphicon-save"></span>
-         </button>
-    </div>
-  </div>
-
-  <div id="container"></div>
-
+<!--  <div id="featurebox"> -->
+    
 
   <div class="" id="toolbox">
-    <ul id="left">
+    <ul class="left">
       <li><button type="button" class="btn btn-default btn-lg">
           <span class="glyphicon glyphicon-comment"></span>
           </button>
@@ -116,7 +127,7 @@
       </li>
     </ul>
 
-    <ul id="right">
+    <ul class="left">
       <li><button type="button" class="btn btn-default btn-lg">
           <span class="glyphicon glyphicon-picture"></span>
           </button></li>
@@ -142,30 +153,8 @@
           <span class="glyphicon glyphicon-phone"></span>
           </button></li>
     </ul>
-  </div> 
 
-    <div class="well">
-      <!-- Split button -->
-      <div class="col-lg-offset-9">
-        <div class="btn-group">
-          <button type="button" class="btn ">Action</button>
-          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">New Rev</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Rev1</a></li>
-            <li><a href="#">Rev2</a></li>
-            <li><a href="#">Rev3</a></li>
-          </ul>
-        </div>
-        <button type="button" class="btn btn-default">Save</button>
-      </div>
-    </div>
-  </div>
-
+  <div id="container"></div>
 
 </body>
 </html>
