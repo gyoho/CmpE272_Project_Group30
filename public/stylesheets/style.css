@@ -1,7 +1,7 @@
 #container {
 	background-color: lightgray;
 	border-radius: 20px;
-	border: 8px solid black;
+	border: 7px solid black;
 	height:600px;
 	width:1000px;
 	float: left;
@@ -28,7 +28,15 @@
 	margin-right: 10px;
 }
 
-.left {
+.project {
+	float: left;
+}
+
+.revision {
+	float: left;
+}
+
+.iconbox {
 	float: left;
 }
 
