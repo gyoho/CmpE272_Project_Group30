@@ -1,14 +1,17 @@
 $(document).ready(function(){
   //Kin is a global object defined to mak it easy to get Kinetic context
   kin = {};
-  initStage(kin);
+  initStage();
 
-  $('.iconbox').click(addIcon);
+  $('.iconbox button').click(function(){
+    //console.dir($(this).children();
+    addText("\uE060");
+  });
 
 
 });
 
-function initStage(kin) {
+function initStage() {
   kin.stage = new Kinetic.Stage({
     container: "container",
     width: 990,
@@ -27,7 +30,7 @@ function addIcon(){
   var imageObj = new Image();
   imageObj.src = 'images/darth-vader.jpg';
   
-  var darthVaderImg = new Kinetic.Image({
+  var iconImg = new Kinetic.Image({
     image: imageObj,
     x: kin.stage.getWidth() / 2 - 200 / 2,
     y: kin.stage.getHeight() / 2 - 137 / 2,
@@ -36,26 +39,42 @@ function addIcon(){
     draggable: true
 });
 
-// darth vader
-var darthVaderImg = new Kinetic.Image({
-  image: imageObj,
-  x: stage.getWidth() / 2 - 200 / 2,
-  y: stage.getHeight() / 2 - 137 / 2,
-  width: 200,
-  height: 137,
-  draggable: true
-});
-
 // add cursor styling
-darthVaderImg.on('mouseover', function() {
+iconImg.on('mouseover', function() {
   document.body.style.cursor = 'pointer';
 });
-darthVaderImg.on('mouseout', function() {
+iconImg.on('mouseout', function() {
   document.body.style.cursor = 'default';
 });
 
-layer.add(darthVaderImg);
-stage.add(layer);
+kin.layer.add(iconImg);
+//kin.stage.add(layer);
+
+kin.stage.batchDraw();
+};
+
+function addText(string){
+  var simpleText = new Kinetic.Text({
+        x: kin.stage.getWidth() / 2,
+        y: 15,
+        text: string,
+        fontSize: 30,
+        fontFamily:'Glyphicons Halflings',
+        fill: 'black',
+        draggable: true
+      });
+  // add cursor styling
+  /*addText.on('mouseover', function() {
+   document.body.style.cursor = 'pointer';
+  });
+  addText.on('mouseout', function() {
+    document.body.style.cursor = 'default';
+  });
+  */
+  kin.layer.add(simpleText);
+  //kin.stage.add(layer);
+
+  kin.stage.batchDraw();
 }
 
 /*
@@ -67,4 +86,4 @@ imageObj.src = 'images/darth-vader.jpg';
 */
 
 /*** Alert ***/
-$(".alert").alert('close');
+//$(".alert").alert('close');
