@@ -3,11 +3,29 @@ $(document).ready(function(){
   kin = {};
   initStage();
 
+/*
   $('.iconbox button').click(function(){
-    //console.dir($(this).children();
+    console.dir($(this).children();
     addText("\uE060");
   });
+*/
 
+  $('.iconbox button').click(function(){
+    //var source = $(this).html();
+    //var source = $(this).contents();
+    //var icon = $(source).contents();
+    //var icon = $(source).html();
+    //var icon = $(source).text();
+    //addText(source);
+    //addText(icon);
+
+
+    var source = $(this)
+    var source1 = $('source'):nth-child(1);
+    //.attr('class');
+    //var icon = $('source:nth-child(1)')
+    addText(source1);
+  });
 
 });
 
