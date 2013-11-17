@@ -10,7 +10,8 @@ $(document).ready(function(){
   });
 */
 
-  $('.iconbox button').click(function(){
+/***
+    $('.iconbox button').click(function(){
     //var source = $(this).html();
     //var source = $(this).contents();
     //var icon = $(source).contents();
@@ -26,6 +27,21 @@ $(document).ready(function(){
     //var icon = $('source:nth-child(1)')
     addText(source1);
   });
+***/
+
+    $('.iconbox button').click(function(){
+      addText("\uE060");
+    });
+
+    $('#saveButton').click(function(){
+      // save stage as a json string
+      var json = kin.stage.toJSON();
+      console.dir(json);     
+    });
+
+    $('#mobileIocn').click(function(){
+      addMobileImg();    
+    });
 
 });
 
@@ -42,11 +58,11 @@ function initStage() {
   kin.stage.add(kin.layer);
 }
 
-//adds a draggable vader to canvas
-function addIcon(){
+//adds a webpage image to canvas
+function addMobileImg(){
   
   var imageObj = new Image();
-  imageObj.src = 'images/darth-vader.jpg';
+  imageObj.src = 'http://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/IPhone_5.png/240px-IPhone_5.png';
   
   var iconImg = new Kinetic.Image({
     image: imageObj,
@@ -54,22 +70,27 @@ function addIcon(){
     y: kin.stage.getHeight() / 2 - 137 / 2,
     width: 200,
     height: 137,
-    draggable: true
+    draggable: false,
+
+    // add the shape to the layer
+    kin.layer.add(iconImg);
+
+    kin.stage.batchDraw();
+
+    // add the layer to the stage
+    kin.stage.add(kin.layer);
 });
 
 // add cursor styling
 iconImg.on('mouseover', function() {
   document.body.style.cursor = 'pointer';
 });
+
 iconImg.on('mouseout', function() {
   document.body.style.cursor = 'default';
 });
 
-kin.layer.add(iconImg);
-//kin.stage.add(layer);
 
-kin.stage.batchDraw();
-};
 
 function addText(string){
   var simpleText = new Kinetic.Text({
@@ -81,27 +102,9 @@ function addText(string){
         fill: 'black',
         draggable: true
       });
-  // add cursor styling
-  /*addText.on('mouseover', function() {
-   document.body.style.cursor = 'pointer';
-  });
-  addText.on('mouseout', function() {
-    document.body.style.cursor = 'default';
-  });
-  */
+ 
   kin.layer.add(simpleText);
   //kin.stage.add(layer);
 
   kin.stage.batchDraw();
 }
-
-/*
-var imageObj = new Image();
-imageObj.onload = function() {
-  drawImage(this);
-};
-imageObj.src = 'images/darth-vader.jpg';
-*/
-
-/*** Alert ***/
-//$(".alert").alert('close');
