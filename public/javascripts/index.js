@@ -39,9 +39,7 @@ $(document).ready(function(){
       console.dir(json);     
     });
 
-    $('#mobileIocn').click(function(){
-      addMobileImg();    
-    });
+    $('#mobileIcon').click(addMobileImg);
 
 });
 
@@ -62,7 +60,7 @@ function initStage() {
 function addMobileImg(){
   
   var imageObj = new Image();
-  imageObj.src = 'http://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/IPhone_5.png/240px-IPhone_5.png';
+  imageObj.src = 'iPhone.png';
   
   var iconImg = new Kinetic.Image({
     image: imageObj,
@@ -70,26 +68,27 @@ function addMobileImg(){
     y: kin.stage.getHeight() / 2 - 137 / 2,
     width: 200,
     height: 137,
-    draggable: false,
+    draggable: false
+  });
 
-    // add the shape to the layer
-    kin.layer.add(iconImg);
+  // add cursor styling
+  iconImg.on('mouseover', function() {
+    document.body.style.cursor = 'pointer';
+  });
 
-    kin.stage.batchDraw();
+  iconImg.on('mouseout', function() {
+    document.body.style.cursor = 'default';
+  });
 
-    // add the layer to the stage
-    kin.stage.add(kin.layer);
+
+  // add the shape to the layer
+  kin.layer.add(iconImg);
+
+  kin.stage.batchDraw();
+
+  // add the layer to the stage
+  //kin.stage.add(kin.layer);
 });
-
-// add cursor styling
-iconImg.on('mouseover', function() {
-  document.body.style.cursor = 'pointer';
-});
-
-iconImg.on('mouseout', function() {
-  document.body.style.cursor = 'default';
-});
-
 
 
 function addText(string){
