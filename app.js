@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-// Impirt libraries and files
+// Import libraries and files
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');

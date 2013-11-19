@@ -39,7 +39,15 @@ $(document).ready(function(){
       console.dir(json);     
     });
 
-    $('#mobileIcon').click(addMobileImg);
+    //$('#mobileIcon').click(addMobileImg);
+
+    $('#mobileWindow').click(function(){
+        addMobileImg();
+    });
+
+    $('#laptopWindow').click(function(){
+        addLaptopImg();
+    });    
 
 });
 
@@ -60,15 +68,15 @@ function initStage() {
 function addMobileImg(){
   
   var imageObj = new Image();
-  imageObj.src = 'iPhone.png';
+  imageObj.src = 'images/iPhone.png';
   
   var iconImg = new Kinetic.Image({
     image: imageObj,
     x: kin.stage.getWidth() / 2 - 200 / 2,
     y: kin.stage.getHeight() / 2 - 137 / 2,
-    width: 200,
-    height: 137,
-    draggable: false
+    width: 1000,
+    height: 1000,
+    draggable: true
   });
 
   // add cursor styling
@@ -88,7 +96,40 @@ function addMobileImg(){
 
   // add the layer to the stage
   //kin.stage.add(kin.layer);
-});
+}
+
+function addLaptopImg(){
+  
+  var imageObj = new Image();
+  imageObj.src = 'images/window.png';
+  
+  var iconImg = new Kinetic.Image({
+    image: imageObj,
+    x: kin.stage.getWidth() / 2 - 200 / 2,
+    y: kin.stage.getHeight() / 2 - 137 / 2,
+    width: 800,
+    height: 600,
+    draggable: true
+  });
+
+  // add cursor styling
+  iconImg.on('mouseover', function() {
+    document.body.style.cursor = 'pointer';
+  });
+
+  iconImg.on('mouseout', function() {
+    document.body.style.cursor = 'default';
+  });
+
+
+  // add the shape to the layer
+  kin.layer.add(iconImg);
+
+  kin.stage.batchDraw();
+
+  // add the layer to the stage
+  //kin.stage.add(kin.layer);
+}
 
 
 function addText(string){
