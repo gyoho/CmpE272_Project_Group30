@@ -6,6 +6,9 @@
 	width:1000px;
 	float: left;
 }
+.nav li{
+	padding-right: 5px;
+}
 
 #toolbox {
 	/*background-color: lightgray;
@@ -29,6 +32,7 @@
 }
 
 .project {
+	display: none; /* hidden for now */
 	float: left;
 }
 

@@ -4,13 +4,9 @@ var Schema = mongoose.Schema;
 
 // Creating a Schema
 var userSchema = Schema({
-	eamil: String,
+	email: String,
 	passwd: String
 })
 
-
-
-
-
 // Export the model
-module.exports = mongoose.model('user', usrSchema)
+module.exports = mongoose.model('user', userSchema)

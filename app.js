@@ -42,11 +42,24 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/users/:id', user.list);
-app.get('/projects/:id', projects.list);
 
+app.get('/api/users', user.list);
+app.get('/api/users/:id', user.show);
+app.post('/api/users', user.post);
+
+app.get('/api/projects', project.list);
+app.get('/api/projects/:id', project.show);
+app.post('/api/projects', project.post);
+
+//experiment to post revisions
+app.get('/api/projects/:id/revisions', project.listRevisons);
+app.get('/api/projects/:id/revisions/:rev', project.showRevison);
+app.post('/api/projects/:id/revisions', project.postRevision);
+
+/*
 app.post('/users', routes/user.create);
 app.post('/projects', routes/project.create);
+*/
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

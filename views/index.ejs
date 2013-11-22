@@ -1,12 +1,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <style>
-    body {
-      margin: 0px;
-      padding: 0px;
-    }
-  </style>
   <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script src="http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.7.2.min.js"></script>
@@ -58,7 +52,7 @@
         </li>
 
         <li class="btn-group">
-          <button type="button" class="btn btn-default">Version</button>
+          <button type="button" class="btn btn-default">Add Background</button>
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
             <span class="sr-only">Toggle Drop-down</span>
@@ -70,7 +64,7 @@
         </li>
 
         <li class="btn-group">
-          <button type="button" class="btn btn-default">Action</button>
+          <button data-toggle="modal" data-target="#login" type="button" class="btn btn-default">Login</button>
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
             <span class="sr-only">Toggle Drop-down</span>
@@ -78,10 +72,12 @@
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">Add member</a></li>
             <li class="divider"></li>
-            <li data-toggle="modal" data-target="#login"><a href="#">Log in</a></li>
             <li data-toggle="modal" data-target="#singup"><a href="#">Sign up</a></li>
+            <!-- <li data-toggle="modal" data-target="#login"><a href="#">Login</a></li> -->
+            <!-- <li> <button type="button" class="btn btn-default" id="saveButton">Save</button> </li> -->
+            <!-- <li data-toggle="modal" data-target="#singup"><a href="#">Sign up</a></li> -->
           </ul>
-          <button type="button" class="btn btn-default" id="saveButton">Save</button>
+          
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -123,8 +119,6 @@
       </li>
     </ul>
 
-
-    m 
     <ul class="iconbox">
       <li><button type="button" class="btn btn-default btn-lg">
           <span class="glyphicon glyphicon-comment"></span>
