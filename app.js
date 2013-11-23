@@ -3,13 +3,15 @@
  * Module dependencies.
  */
 
-// Import libraries and files
+// Makes our local variable an object that carries
+// all the public methods the express module provides.
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
 var project = require('./routes/project')
 var http = require('http');
 var path = require('path');
+
 // Declare mongoose
 var mongoose = require('mongoose');
 // open a connection to the test database
@@ -41,6 +43,34 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+/*** Passport config ***/
+app.configure(function() {
+  app.use(express.static('public'));
+  app.use(express.cookieParser());
+  app.use(express.bodyParser());
+  app.use(express.session({ secret: 'keyboard cat' }));
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(app.router);
+});
+
+// 
+app.post('/login',
+  passport.authenticate('local'),
+  function(req, res) {
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
+    res.redirect('/users/' + req.user.username);
+  });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
+
+// var routes = require('./routes');
+// exports.index
 app.get('/', routes.index);
 
 app.get('/api/users', user.list);

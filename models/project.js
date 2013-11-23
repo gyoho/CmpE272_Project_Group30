@@ -1,17 +1,17 @@
 //  Require object
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-//var Canvas = require('./canvas');
 
-//canvas Schema
+
+//Creating a canvas Schema
 var canvasSchema = Schema({
-	data: {},
-	name: String
+	revisionName: String,
+	data: {} // JSON object
 })
 
-// Creating a Schema
+// Creating a project Schema
 var projectSchema = Schema({
-	name: String,
+	projectName: String,
 	owner: String,
 	revision: [canvasSchema]
 	//member: Array

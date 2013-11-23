@@ -36,8 +36,31 @@ $(document).ready(function(){
     $('#saveButton').click(function(){
       // save stage as a json string
       var json = kin.stage.toJSON();
+      $.ajax({
+        type: "POST",
+        url: "/api/projects",
+        data: {name:"TestName",owner:"Gyoho",data:json},
+        success: function(data){console.log("Saved")},
+        dataType: "json"
+      });
       console.dir(json);     
     });
+
+    $('#loadButton').click(function(){
+      // load stage as a json string
+      $.ajax({
+        type: "GET",
+        url: "/api/projects/52905c0627a006d43e000004",
+        success: function(data){
+          console.log("Loaded");//,data.revision[0].data);
+          initStage( Kinetic.Node.create(data.revision[0].data, 'container'));
+        },
+        dataType: "json"
+      });
+      //console.dir(json);     
+    });
+
+
 
     //$('#mobileIcon').click(addMobileImg);
 
@@ -51,12 +74,30 @@ $(document).ready(function(){
 
 });
 
-function initStage() {
-  kin.stage = new Kinetic.Stage({
-    container: "container",
-    width: 990,
-    height: 590,
-  });
+function initStage(loaded) {
+  if(loaded){
+    kin.stage = loaded;
+
+    var array = kin.stage.find('Image');
+
+    $.each(array, function( index, image ) {
+      var imageObj = new Image();
+      //console.dir(image);
+      imageObj.onload = function() {
+        image.setImage(imageObj);
+        kin.stage.draw();
+      };
+      imageObj.src = 'images/' + image.attrs.name;
+      
+    });
+
+  } else {
+    kin.stage = new Kinetic.Stage({
+      container: "container",
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  }
   
   //create a single layer
   kin.layer = new Kinetic.Layer();
@@ -72,11 +113,12 @@ function addMobileImg(){
   
   var iconImg = new Kinetic.Image({
     image: imageObj,
-    x: kin.stage.getWidth() / 2 - 200 / 2,
-    y: kin.stage.getHeight() / 2 - 137 / 2,
-    width: 1000,
-    height: 1000,
-    draggable: true
+    x: 0,
+    y: 0,
+    width: kin.stage.getHeight(),
+    height: kin.stage.getHeight(),
+    draggable: true,
+    name: 'iPhone.png'
   });
 
   // add cursor styling
@@ -105,11 +147,12 @@ function addLaptopImg(){
   
   var iconImg = new Kinetic.Image({
     image: imageObj,
-    x: kin.stage.getWidth() / 2 - 200 / 2,
-    y: kin.stage.getHeight() / 2 - 137 / 2,
-    width: 800,
-    height: 600,
-    draggable: true
+    x: 0,
+    y: 0,
+    width: kin.stage.getHeight(),
+    height: kin.stage.getHeight(),
+    draggable: true,
+    name: 'window.png'
   });
 
   // add cursor styling
