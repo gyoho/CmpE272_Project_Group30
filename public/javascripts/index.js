@@ -33,6 +33,7 @@ $(document).ready(function(){
       addText("\uE060");
     });
 
+
     $('#saveButton').click(function(){
       // save stage as a json string
       var json = kin.stage.toJSON();
@@ -43,14 +44,14 @@ $(document).ready(function(){
         success: function(data){console.log("Saved")},
         dataType: "json"
       });
-      console.dir(json);     
+      console.dir(json);// display the  
     });
 
     $('#loadButton').click(function(){
       // load stage as a json string
       $.ajax({
         type: "GET",
-        url: "/api/projects/52905c0627a006d43e000004",
+        url: "/api/projects/528ebe41a814ce322d000002",
         success: function(data){
           console.log("Loaded");//,data.revision[0].data);
           initStage( Kinetic.Node.create(data.revision[0].data, 'container'));
@@ -70,7 +71,87 @@ $(document).ready(function(){
 
     $('#laptopWindow').click(function(){
         addLaptopImg();
-    });    
+    });
+
+
+    $('.error').hide();
+    $("#registerButton").click(function() {  
+    // validate and process form here
+
+      $('.error').hide();  
+        var name = $("input#userName").val();  
+          if (name == "") {  
+        $("label#userName_error").show();  
+        $("input#userName").focus();  
+        return false;  
+      }  
+          var email = $("input#registerEmail").val();  
+          if (email == "") {  
+        $("label#email_error").show();  
+        $("input#email").focus();  
+        return false;  
+      }  
+          var password = $("input#registerPassword").val();  
+          if (password == "") {  
+        $("label#password_error").show();
+        $("input#password").focus();  
+        return false;  
+      }
+
+      var dataString = 'userName='+ name + '&email=' + email + '&password=' + password;  
+      //alert (dataString);return false;  
+      $.ajax({  
+        type: "POST",  
+        url: "/api/users",  
+        data: dataString,  
+        success: function() {  
+        /*  $('#contact_form').html("<div id='message'></div>");  
+          $('#message').html("<h2>Contact Form Submitted!</h2>")  
+          .append("<p>We will be in touch soon.</p>")  
+          .hide()  
+          .fadeIn(1500, function() {  
+            $('#message').append("<img id='checkmark' src='images/check.png'/>");
+          });*/  
+        }  
+      });  
+      return false;  
+  });
+
+  $("#loginButton").click(function() {
+  // validate and process form here
+
+      $('.error').hide();  
+        var email = $("input#email").val();  
+          if (email == "") {  
+        $("label#email_error").show();  
+        $("input#email").focus();  
+        return false;  
+      }  
+          var password = $("input#password").val();  
+          if (password == "") {  
+        $("label#password_error").show();  
+        $("input#password").focus();  
+        return false;  
+      }
+
+      var dataString = 'email=' + email + '&password=' + password;  
+      //alert (dataString);return false;  
+      $.ajax({  
+        type: "POST",  
+        url: "/login",  
+        data: dataString,  
+        success: function() {  
+        /*  $('#contact_form').html("<div id='message'></div>");  
+          $('#message').html("<h2>Contact Form Submitted!</h2>")  
+          .append("<p>We will be in touch soon.</p>")  
+          .hide()  
+          .fadeIn(1500, function() {  
+            $('#message').append("<img id='checkmark' src='images/check.png'/>");
+          });*/  
+        }  
+      });  
+      return false;  
+  }); 
 
 });
 
@@ -91,7 +172,9 @@ function initStage(loaded) {
       
     });
 
-  } else {
+  }
+  // create new canvas
+  else {
     kin.stage = new Kinetic.Stage({
       container: "container",
       width: window.innerWidth,

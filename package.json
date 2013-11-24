@@ -9,8 +9,9 @@
     "express": "3.4.4",
     "mongoose": "*",
     "ejs": "*",
-    "passport": "*" 
-    
+    "passport": "*", 
+    "bcrypt": "*",
+    "passport-local": "*"
   },
    "engines": {
     "node": "0.10.x",

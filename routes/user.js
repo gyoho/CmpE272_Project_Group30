@@ -37,19 +37,15 @@ exports.show = function(req, res){
 
 exports.post  = function(req, res) {
 	//validate username and passowrd
-	if(req.body.hasOwnProperty('email') && req.body.hasOwnProperty('passwd')){
+	if(req.body.hasOwnProperty('userName') && req.body.hasOwnProperty('email') && req.body.hasOwnProperty('password')){
 
-		//DEBUG
-		//console.log(" - User Created - ");
-		//console.log("Email: " + req.body.email);
-		//console.log("Password: " + req.body.passwd);
-
+		var userName = req.body.userName;
 		var email = req.body.email;
-		var passwd = req.body.passwd;
+		var password = req.body.password;
 		var user;
 
 		//create a single model with posted data
-	    user = new User({'email': email, 'passwd': passwd});
+	    user = new User({'name': userName, 'email': email, 'password': password});
 
 	    //save model
 	    user.save();

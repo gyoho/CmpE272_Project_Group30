@@ -5,14 +5,14 @@ var Schema = mongoose.Schema;
 
 //Creating a canvas Schema
 var canvasSchema = Schema({
-	revisionName: String,
+	revisionName: { type: String, require: true },
 	data: {} // JSON object
 })
 
 // Creating a project Schema
 var projectSchema = Schema({
-	projectName: String,
-	owner: String,
+	projectName: { type: String, require: true },
+	owner: { type: String, require: true },
 	revision: [canvasSchema]
 	//member: Array
 })
