@@ -1,59 +1,109 @@
 /*
- * GET users listing.
+ * GET project listing.
  */
 
-var User = require('../models/user');
+var Project = require('../models/project');
 
-/*
- *	Making some code a module means export those parts
- *	of its functionality
- */
-
-
-// Request is specified in app.js
-// So, we don't use the req object here
-
-// Anywhere a callback is passed to a function in Mongoose,
-// the callback follows the pattern "callback(error, results)."
-
-// Return the list of user
 exports.list = function(req, res){
-	User.find({},function (err, list) {
-		if (err) return err;
-		//console.log(list);
-		res.send(list);
-	});
+  Project.find({},function (err, list) {
+    if (err) return err;
+    //console.log(list);
+    res.send(list);
+  });
 };
 
-// Return user who has id corresponding to URL part
+//
 exports.show = function(req, res){
-	User.findOne({'_id':req.params('id')} ,function (err, user) {
+	Project.findOne({'_id':req.params.id} ,function (err, project) {
 		if (err) return err;
-		//console.log(user);
-		res.send(user);
+		//console.log(project);
+		res.send(project);
 	});
 };
 
+exports.post = function(req, res) {
+  //validate name and owner
+  if(req.body.hasOwnProperty('projectName') && req.body.hasOwnProperty('owner') && req.body.hasOwnProperty('data')){
 
-exports.post  = function(req, res) {
-	//validate username and passowrd
-	if(req.body.hasOwnProperty('userName') && req.body.hasOwnProperty('email') && req.body.hasOwnProperty('password')){
+    //DEBUG
+    //console.log(" - Project Created - ");
+    //console.log("Name: " + req.body.name);
+    //console.log("Owner: " + req.body.owner);
 
-		var userName = req.body.userName;
-		var email = req.body.email;
-		var password = req.body.password;
-		var user;
+    var projectName = req.body.projectName;
+    var owner = req.body.owner;
+    var data = req.body.data;
+    var project;
 
-		//create a single model with posted data
-	    user = new User({'name': userName, 'email': email, 'password': password});
+    //create a single model with posted data
+    project = new Project({'projectName': projectName, 'owner': owner, 'revision': [] });
 
-	    //save model
-	    user.save();
+     //insert data in array
+    project.revision.push({'data':data});
 
-	    //Output response response to user.
-	    res.send(201, "User Created: " + user['_id']);
-	}
-	else {
-		res.send(400, "Bad Request: user or passwd missing");
-	}
+    //Required to save Mixed type
+    project.markModified('revision');
+
+    //save model
+    project.save();
+
+    //Output response response to user.
+    res.send(201, {status: "Project Created", id: project['_id']});
+  }
+  else {
+    res.send(400, {status: "Bad Request: Project not created"});
+  }
+}
+
+exports.listRevisons = function(req, res){
+  Project.findOne({'_id':req.params.id} ,function (err, project) {
+    if (err) return err;
+    //console.log(project);
+    res.send(project.revision);
+  });
+};
+
+
+exports.showRevison = function(req, res){
+  Project.findOne({'_id':req.params.id} ,function (err, project) {
+    if (err) return err;
+    //console.log(project);
+
+
+    if(0 <= req.params.rev && req.params.rev < project.revision.length)
+      res.send(project.revision[req.params.rev]);
+    else
+      res.send(404,{status: "Revision Doesn't exsist"});
+  });
+};
+
+exports.postRevision = function(req, res) {
+  //validate data
+  if(req.body.hasOwnProperty('data')){
+    Project.findOne({'_id':req.params.id} ,function (err, project) {
+      if (err) return err;
+
+        //console.log(" - Revisions Created - ");
+        //console.log("Rev: " + req.body.data);
+        var data = req.body.data;
+        var revisionName = req.body.revisionName;
+        var canvas;
+
+        //insert data in array
+        project.revision.push({'data':data, 'revisionName': revisionName});
+
+        //Required to save Mixed type
+        project.markModified('revision');
+        //project.revision.markModified[0]('data');
+        
+       //save modification
+        project.save(function(err){
+          if(err) return err;
+          res.send(201, {status: "Revision Created", id: project.revision.length-1});
+        });
+    });
+  }
+  else {
+    res.send(400, {status: "Bad Request: Project not created"});
+  }
 }

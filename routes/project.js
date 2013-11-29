@@ -14,17 +14,16 @@ exports.list = function(req, res){
 
 //
 exports.show = function(req, res){
-	Project.findOne({'_id':req.params.id} ,function (err, project) {
-		if (err) return err;
-		//console.log(project);
-		res.send(project);
-	});
+  Project.findOne({'_id':req.params.id} ,function (err, project) {
+    if (err) return err;
+    //console.log(project);
+    res.send(project);
+  });
 };
 
 exports.post = function(req, res) {
   //validate name and owner
-
-  if(req.body.hasOwnProperty('projectName') && req.body.hasOwnProperty('owner')){
+  if(req.body.hasOwnProperty('projectName') && req.body.hasOwnProperty('owner') && req.body.hasOwnProperty('data')){
 
     //DEBUG
     //console.log(" - Project Created - ");
@@ -49,11 +48,10 @@ exports.post = function(req, res) {
     project.save();
 
     //Output response response to user.
-    res.send(201, "Project Created: " + project['_id']);
-
+    res.send(201, {status: "Project Created", id: project['_id']});
   }
   else {
-    res.send(400, "Bad Request: Project not created");
+    res.send(400, {status: "Bad Request: Project not created"});
   }
 }
 
@@ -71,14 +69,14 @@ exports.showRevison = function(req, res){
     if (err) return err;
     //console.log(project);
 
+
     if(0 <= req.params.rev && req.params.rev < project.revision.length)
       res.send(project.revision[req.params.rev]);
     else
-      res.send(404,"Revision Doesn't exsist");
+      res.send(404,{status: "Revision Doesn't exsist"});
   });
 };
 
-// Find proper project with id and push_back to its array
 exports.postRevision = function(req, res) {
   //validate data
   if(req.body.hasOwnProperty('data')){
@@ -101,12 +99,11 @@ exports.postRevision = function(req, res) {
        //save modification
         project.save(function(err){
           if(err) return err;
-          res.send(201, "Revision Created: " + project.revision.length-1);
+          res.send(201, {status: "Revision Created", id: project.revision.length-1});
         });
-       // res.send(201, "Revision Created: " + project.revision.length-1);
     });
   }
   else {
-    res.send(400, "Bad Request: Project not created");
+    res.send(400, {status: "Bad Request: Project not created"});
   }
 }

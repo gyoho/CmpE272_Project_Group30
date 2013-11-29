@@ -1,6 +1,12 @@
 //  Require object
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+//var Canvas = require('./canvas');
+
+//canvas Schema
+var canvasSchema = Schema({
+	data: {}
+})
 
 
 //Creating a canvas Schema
