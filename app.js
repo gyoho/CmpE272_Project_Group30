@@ -8,7 +8,9 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
-var project = require('./routes/project')
+var project = require('./routes/project');
+var comment = require('./routes/comment');
+var artifact = require('./routes/artifact');
 var http = require('http');
 var path = require('path');
 var passport = require('passport');
@@ -17,7 +19,7 @@ var pass = require('./config/passport');
 // Declare mongoose
 var mongoose = require('mongoose');
 // open a connection to the test database
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/cmpe272');
 
 
 var app = express();
@@ -80,6 +82,7 @@ app.post('/login', function(req, res, next) {
 */
 //todo fix me
 app.post('/login', pass.login);
+debugger;
 
 app.get('/logout', function(req, res){
   req.logout();
@@ -98,6 +101,14 @@ app.post('/api/users', user.post);
 app.get('/api/projects', project.list);
 app.get('/api/projects/:id', project.show);
 app.post('/api/projects', project.post);
+
+app.get('/api/comments', comment.list);
+app.get('/api/comments/:id', comment.show);
+app.post('/api/comments', comment.post);
+
+app.get('/api/artifacts', artifact.list);
+app.get('/api/artifacts/:id', artifact.show);
+app.post('/api/artifacts', artifact.post);
 
 
 //experiment to post revisions

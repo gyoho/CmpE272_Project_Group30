@@ -8,7 +8,8 @@ var mongoose = require('mongoose')
 var userSchema = Schema({
 	name: { type: String, require: true},
 	email: { type: String, require: true, unique: true },
-	password: { type: String, required: true }
+	password: { type: String, required: true },
+    created_date: {type:Date,default: Date.now}
 })
 
 // Bcrypt middleware
