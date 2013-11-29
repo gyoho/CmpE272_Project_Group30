@@ -63,9 +63,6 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
     res.send("Success");
 });
 
-//todo fix me
-app.post('/login', pass.login);
-
 
 app.get('/logout', function(req, res){
   console.log("Logged Out");
@@ -74,7 +71,7 @@ app.get('/logout', function(req, res){
 });
 
 
-// var routes = require('./routes');
+ var routes = require('./routes');
 // exports.index
 app.get('/', routes.index);
 

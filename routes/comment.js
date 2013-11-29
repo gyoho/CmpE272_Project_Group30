@@ -23,27 +23,27 @@ exports.post  = function(req, res) {
 
 // 	Comment.pre('save', function(next, done) {
 //   	//var transaction = this;
-  	var commentValue = req.body.commentValue;
-	var userId = req.body.userId;
-	var comment  = new Comment({'commentValue': commentValue, "created_by" : userId});
+//   	var commentValue = req.body.commentValue;
+// 	var userId = req.body.userId;
+// 	var comment  = new Comment({'commentValue': commentValue, "created_by" : userId});
 
-  Artifact.findById(req.body.artifactId, (function (err, artifact) {
-    if (artifact.length = 0) { next(new Error("Artifact doesn't exist")); return; }
-//     Step(
-//     	function save_comment(err) {
-//         if (err) { next(err); return; }
-//         comment.save();
-//       },
-//       function save_artifact() {
-//         artifact.commnets.push(comment);
-//         artifact.save(this);
-//       },
-//       function callback(err) {
-//         next(err); 
-//       }
-//     );
-//   });
-// });
+//   Artifact.findById(req.body.artifactId, (function (err, artifact) {
+//     if (artifact.length = 0) {  }
+// //     Step(
+// //     	function save_comment(err) {
+// //         if (err) { next(err); return; }
+// //         comment.save();
+// //       },
+// //       function save_artifact() {
+// //         artifact.commnets.push(comment);
+// //         artifact.save(this);
+// //       },
+// //       function callback(err) {
+// //         next(err); 
+// //       }
+// //     );
+// //   });
+//  });
 
 
 
