@@ -2,7 +2,7 @@ $(document).ready(function(){
   //Kin is a global object defined to mak it easy to get Kinetic context
   kin = {};
   initStage();
-
+  $('#logoutMenu').hide();
 /*
   $('.iconbox button').click(function(){
     console.dir($(this).children();
@@ -40,18 +40,20 @@ $(document).ready(function(){
       $.ajax({
         type: "POST",
         url: "/api/projects",
-        data: {name:"TestName",owner:"Gyoho",data:json},
-        success: function(data){console.log("Saved")},
+        data: {projectName:"TestName",owner:"test@test.com",data:json},
+        success: function(data){console.log("Saved",data)},
+        fail: function(data){console.log("Saved",data)},
         dataType: "json"
       });
-      console.dir(json);// display the  
+
+      //console.dir(json);     
     });
 
     $('#loadButton').click(function(){
-      // load stage as a json string
+      // save stage as a json string
       $.ajax({
         type: "GET",
-        url: "/api/projects/528ebe41a814ce322d000002",
+        url: "/api/projects/52905c0627a006d43e000004",
         success: function(data){
           console.log("Loaded");//,data.revision[0].data);
           initStage( Kinetic.Node.create(data.revision[0].data, 'container'));
@@ -60,9 +62,6 @@ $(document).ready(function(){
       });
       //console.dir(json);     
     });
-
-
-
     //$('#mobileIcon').click(addMobileImg);
 
     $('#mobileWindow').click(function(){
@@ -73,8 +72,8 @@ $(document).ready(function(){
         addLaptopImg();
     });
 
-
     $('.error').hide();
+
     $("#registerButton").click(function() {  
     // validate and process form here
 
@@ -85,13 +84,13 @@ $(document).ready(function(){
         $("input#userName").focus();  
         return false;  
       }  
-          var email = $("input#registerEmail").val();  
+        var email = $("input#registerEmail").val();  
           if (email == "") {  
         $("label#email_error").show();  
         $("input#email").focus();  
         return false;  
       }  
-          var password = $("input#registerPassword").val();  
+        var password = $("input#registerPassword").val();  
           if (password == "") {  
         $("label#password_error").show();
         $("input#password").focus();  
@@ -112,6 +111,9 @@ $(document).ready(function(){
           .fadeIn(1500, function() {  
             $('#message').append("<img id='checkmark' src='images/check.png'/>");
           });*/  
+          $('#register').modal('hide');
+          $('#loginMenu').hide();
+          $('#logoutMenu').show();
         }  
       });  
       return false;  
@@ -127,7 +129,7 @@ $(document).ready(function(){
         $("input#email").focus();  
         return false;  
       }  
-          var password = $("input#password").val();  
+        var password = $("input#password").val();  
           if (password == "") {  
         $("label#password_error").show();  
         $("input#password").focus();  
@@ -148,11 +150,26 @@ $(document).ready(function(){
           .fadeIn(1500, function() {  
             $('#message').append("<img id='checkmark' src='images/check.png'/>");
           });*/  
+          $('#login').modal('hide');
+          $('#loginMenu').hide();
+          $('#logoutMenu').show();
         }  
       });  
       return false;  
   }); 
-
+$("#logoutButton").click(function() {
+  // validate and process form here
+      //alert (dataString);return false;  
+      $.ajax({  
+        type: "GET",  
+        url: "/logout",   
+        success: function() {
+          $('#logoutMenu').hide();
+          $('#loginMenu').show();
+        }  
+      });  
+      return false;  
+  }); 
 });
 
 function initStage(loaded) {
@@ -171,7 +188,6 @@ function initStage(loaded) {
       imageObj.src = 'images/' + image.attrs.name;
       
     });
-
   }
   // create new canvas
   else {
@@ -274,3 +290,4 @@ function addText(string){
 
   kin.stage.batchDraw();
 }
+

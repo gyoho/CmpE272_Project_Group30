@@ -1,14 +1,15 @@
 //  Require object
 var mongoose = require('mongoose')
-  ,	Schema = mongoose.Schema
+  , Schema = mongoose.Schema
   , bcrypt = require('bcrypt')
   , SALT_WORK_FACTOR = 10;
 
 // Creating a Schema
 var userSchema = Schema({
-	name: { type: String, require: true},
-	email: { type: String, require: true, unique: true },
-	password: { type: String, required: true }
+
+    name: { type: String, require: true},
+    email: { type: String, require: true, unique: true },
+    password: { type: String, required: true }
 })
 
 // Bcrypt middleware
@@ -19,14 +20,14 @@ userSchema.pre('save', function(next) {
 
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
         if(err) {
-        	return next(err);
+            return next(err);
         }
         else {
-        	bcrypt.hash(user.password, salt, function(err, hash) {
+            bcrypt.hash(user.password, salt, function(err, hash) {
                 if(err) return next(err);
                 user.password = hash;
                 next();
-       		});
+            });
         }
     });
 });
