@@ -2,53 +2,71 @@ $(document).ready(function(){
   //Kin is a global object defined to mak it easy to get Kinetic context
   kin = {};
   initStage();
-  $('#logoutMenu').hide();
-/*
-  $('.iconbox button').click(function(){
-    console.dir($(this).children();
-    addText("\uE060");
-  });
-*/
+  //$('#logoutMenu').hide();
 
-/***
-    $('.iconbox button').click(function(){
-    //var source = $(this).html();
-    //var source = $(this).contents();
-    //var icon = $(source).contents();
-    //var icon = $(source).html();
-    //var icon = $(source).text();
-    //addText(source);
-    //addText(icon);
-
-
-    var source = $(this)
-    var source1 = $('source'):nth-child(1);
-    //.attr('class');
-    //var icon = $('source:nth-child(1)')
-    addText(source1);
-  });
-***/
-
+    //TODO add data attributes to index.EJS
     $('.iconbox button').click(function(){
       addText("\uE060");
     });
 
-
     $('#saveButton').click(function(){
-      // save stage as a json string
-      var json = kin.stage.toJSON();
+      // 
+      //
+      $('.error').hide();  
+      var projectName = $("input#projectName").val();  
+      if (projectName == "") {  
+        $("label#projectName_error").show();  
+        $("input#projectName").focus();  
+        return false;  
+      }  
+      else{
+        // save stage as a json string
+        var json = kin.stage.toJSON();
+
+        $.ajax({
+          type: "POST",
+          url: "/api/projects",
+          data: {projectName: projectName, data:json},
+          success: function(data){console.log("Saved",data)},
+          fail: function(data){console.log("Saved",data)},
+          dataType: "json"
+        });
+      }
+    });
+
+
+    $('#loadButton').click(function(){
+      // load stage as a json string
       $.ajax({
-        type: "POST",
+        type: "GET",
         url: "/api/projects",
-        data: {projectName:"TestName",owner:"test@test.com",data:json},
-        success: function(data){console.log("Saved",data)},
-        fail: function(data){console.log("Saved",data)},
+        success: function(projects){
+          var list ="";
+
+          for(var i=0; i<projects.length; i++){
+            list += '<li data-id="'+ projects[i]._id +'" data-dismiss="modal" >' + projects[i].projectName + "</li>";
+          }
+          $('#projectsList').append(list);
+          $('#projectsList li').click(function(){
+            $.ajax({
+              type: "GET",
+              url: "/api/projects/" + $(this).data("id"),
+              success: function(data){
+                console.log("Loaded");//,data.revision[0].data);
+                initStage( Kinetic.Node.create(data.revision[0].canvasData, 'container'));
+                $("input#projectName").val(data.projectName);
+                $("input#projectName").data("id" , data._id);
+              },
+              dataType: "json"
+            });
+          });
+        },
         dataType: "json"
       });
-
       //console.dir(json);     
     });
 
+/**
     $('#loadButton').click(function(){
       // save stage as a json string
       $.ajax({
@@ -62,6 +80,8 @@ $(document).ready(function(){
       });
       //console.dir(json);     
     });
+**/
+
     //$('#mobileIcon').click(addMobileImg);
 
     $('#mobileWindow').click(function(){
@@ -80,13 +100,13 @@ $(document).ready(function(){
       $('.error').hide();  
         var name = $("input#userName").val();  
           if (name == "") {  
-        $("label#userName_error").show();  
+        $(".error").show();  
         $("input#userName").focus();  
         return false;  
       }  
         var email = $("input#registerEmail").val();  
           if (email == "") {  
-        $("label#email_error").show();  
+        $(".error").show();  
         $("input#email").focus();  
         return false;  
       }  
@@ -121,19 +141,20 @@ $(document).ready(function(){
 
   $("#loginButton").click(function() {
   // validate and process form here
-
       $('.error').hide();  
-        var email = $("input#email").val();  
-          if (email == "") {  
+      var email = $("input#email").val();  
+
+      if (email == "") {  
         $("label#email_error").show();  
         $("input#email").focus();  
         return false;  
       }  
-        var password = $("input#password").val();  
-          if (password == "") {  
+      var password = $("input#password").val();  
+
+      if (password == "") {  
         $("label#password_error").show();  
         $("input#password").focus();  
-        return false;  
+        return false; 
       }
 
       var dataString = 'email=' + email + '&password=' + password;  

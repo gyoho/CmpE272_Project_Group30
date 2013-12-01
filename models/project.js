@@ -1,19 +1,16 @@
 //  Require object
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-//var Canvas = require('./canvas');
+var mongoose = require('mongoose')
+, Schema = mongoose.Schema
+, comments = require('./comment');
 
-//canvas Schema
+
+// Creating a Schema
 var canvasSchema = Schema({
-	data: {}
+	canvasData: { type: String, require: true},
+    comments : [comments],
+    created_date: {type:Date,default: Date.now},
 })
 
-
-//Creating a canvas Schema
-var canvasSchema = Schema({
-	revisionName: { type: String, require: true },
-	data: {} // JSON object
-})
 
 // Creating a project Schema
 var projectSchema = Schema({

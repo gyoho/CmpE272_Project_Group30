@@ -27,107 +27,30 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div id="navbar-collapse-1" class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <!--
-        <li title="Undo"><button type="button" class="btn btn-default btn-lg">
-         <span class="glyphicon glyphicon-arrow-left"></span>
-         </button>
-        </li>
-        <li title="Redo">
-          <button type="button" class="btn btn-default btn-lg">
-           <span class="glyphicon glyphicon-arrow-right"></span>
-          </button>
-        </li>
-        <li title="Draw">
-          <button type="button" class="btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-pencil"></span>
-          </button>
-        </li>
-        <li title="Upload a image">
-          <button type="button" class="btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-upload"></span>
-          </button>
-        </li>
-        <li>
-          <button type="button" class="btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-share"></span>
-          </button>
-        </li>
-        -->
         <li>
           <form class="navbar-form navbar-left">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Project Name">
+              <input id="projectName" type="text" class="form-control" placeholder="Project Name">
             </div>
+            <label for="projectName" class="col-sm-2 control-label error" id="projectName_error">Error</label>
             <button type="button" class="btn btn-default" id="saveButton" >Save</button>
           </form>
         </li>
-        <li>
-          <button type="button" class="btn btn-default navbar-btn" id="loadButton">Load</button>
+        <li id="loadButton">
+          <button data-toggle="modal" data-target="#load" type="button" class="btn btn-default navbar-btn">Load</button>
         </li>
-        <li id="loginMenu">
-          <button data-toggle="modal" data-target="#login" type="button" class="btn btn-default navbar-btn">Login</button>
+       
+        <li id="loginMenu" <% if(user){ %> style="display: none;" <%}%> >
+          <button data-toggle="modal" data-target="#login" type="button" class="btn btn-default navbar-btn"  >Login</button>
         </li>
-        <li id="logoutMenu">
+        <li id="logoutMenu" <% if(!user){ %> style="display: none;" <%}%> >
           <button id="logoutButton" type="button" class="btn btn-primary navbar-btn">Logout</button>
         </li>        
-
-<!--
-        <li class="btn-group">
-          <button data-toggle="modal" data-target="#login" type="button" class="btn btn-default navbar-btn">Login</button>
-          <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Drop-down</span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Add member</a></li>
-            <li class="divider"></li>
-            <!-- associate with id=register --> 
-   <!--         <li data-toggle="modal" data-target="#register"><a href="#">Register</a></li>
-            <!-- <li data-toggle="modal" data-target="#login"><a href="#">Login</a></li> -->
-            <!-- <li> <button type="button" class="btn btn-default" id="saveButton">Save</button> </li> -->
-            <!-- <li data-toggle="modal" data-target="#singup"><a href="#">Sign up</a></li> -->
-      <!--    </ul>
-          
-        </li>-->
       </ul>
     </div><!-- /.navbar-collapse -->
   </nav>
 
-    
-
-  <div class="" id="toolbox">
-    <!--<ul class="project">
-      <li><button type="button" class="btn btn-default btn-lg">
-          <span></span> New Project
-          </button>
-      </li>
-      <li><button type="button" class="btn btn-default btn-lg">
-          <span></span> Project 1
-          </button>
-      </li>
-      <li><button type="button" class="btn btn-default btn-lg">
-          <span></span> Project 2
-          </button>
-      </li>
-      <li><button type="button" class="btn btn-default btn-lg">
-          <span></span> Project 3
-          </button>
-      </li>
-      <li class="btn-group">
-          <button type="button" class="btn btn-lg btn-default">Rev</button>
-          <button type="button" class="btn btn-lg btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="sr-only">Toggle Drop-down</span>
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Last Revision</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Revision 2</a></li>
-            <li><a href="#">Revision 3</a></li>
-            <li><a href="#">Revision 4</a></li>
-          </ul>
-      </li>
-    </ul> -->
+  <div class="col-sm-2" id="toolbox">
     <ul class="">
        <li class="btn-group">
           <button type="button" class="btn btn-default navbar-btn">Templates</button>
@@ -203,11 +126,38 @@
           </button></li>
     </ul>
   </div>
-<div id="container"></div>
 
-
+<div class="col-sm-8" id="container"></div>
+<!--<div class="col-sm-2" id="friends">
+  <button type="button" class="btn btn-default btn-lg">
+  <ul>
+    <li>User 1</li>
+    <li>User 2</li>
+    <li>User 3</li>
+  </ul>
+</div> -->
   <!-- Modal -->
   <!-- http://getbootstrap.com/javascript/#modals -->
+  <div class="modal fade" id="load" tabindex="-1" role="dialog" aria-labelledby="loadLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="loadLabel">List of Projects</h4>
+        </div>
+        <div class="modal-body">
+          
+          <!-- Show the list of projects' name -->
+          <ol id="projectsList"></ol>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
   <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -224,12 +174,14 @@
               <div class="col-sm-10">
                 <input type="email" class="form-control" id="email" placeholder="Email">
               </div>
+              <label for="email" class="col-sm-2 control-label error" id="email_error">Error</label>
             </div>
             <div class="form-group">
               <label for="inputPassword" class="col-sm-2 control-label">Password</label>
               <div class="col-sm-10">
                 <input type="password" class="form-control" id="password" placeholder="Password">
               </div>
+              <label for="password" class="col-sm-2 control-label error" id="password_error">Error</label>
             </div>
           </form>
         </div><!-- End of horizonal form -->
@@ -260,18 +212,21 @@
               <div class="col-sm-10">
                 <input type="userName" class="form-control" id="userName" placeholder="Name">
               </div>
+              <label for="userName" class="col-sm-2 control-label error" id="userName_error">Error</label>
             </div>
             <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Email</label>
               <div class="col-sm-10">
                 <input type="email" class="form-control" id="registerEmail" placeholder="Email">
               </div>
+              <label for="registerEmail" class="col-sm-2 control-label error" id="email_error">Error</label>
             </div>
             <div class="form-group">
               <label for="password" class="col-sm-2 control-label">Password</label>
               <div class="col-sm-10">
                 <input type="password" class="form-control" id="registerPassword" placeholder="Password">
               </div>
+              <label for="registerPassword" class="col-sm-2 control-label error" id="password_error">Error</label>
             </div>
           </form>
         </div><!-- End of horizonal form -->

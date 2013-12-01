@@ -4,7 +4,6 @@
 	border-radius: 20px;
 	border: 7px solid black;
 	height:580px;
-	width:80%;
 	float: left; 
 	overflow: hidden;
 }
@@ -50,6 +49,18 @@
 	/*margin-right: 50px;*/
 	float: right;
 }
+#friends {
+	/*margin-right: 50px;*/
+	float: left;
+	border-radius: 5px;
+	border: 1px solid black;
+}
+
+
 #bottom{
 	clear:both;
+}
+
+.error{
+	display: inline-block;
 }

@@ -10,7 +10,6 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var project = require('./routes/project');
 var comment = require('./routes/comment');
-var artifact = require('./routes/artifact');
 var http = require('http');
 var path = require('path');
 var pass = require('./config/passport');
@@ -20,7 +19,7 @@ var passport = require('passport');
 // Declare mongoose
 var mongoose = require('mongoose');
 // open a connection to the test database
-mongoose.connect('mongodb://localhost/cmpe272');
+mongoose.connect( process.env.MONGOLAB_URI || 'mongodb://localhost/cmpe272');
 
 
 var app = express();
@@ -60,7 +59,7 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
     // `req.user` contains the authenticated user.
     //res.redirect('/users/' + req.user.username);
     console.log("Logged In");
-    res.send("Success");
+    res.send({status:"Success"});
 });
 
 
@@ -72,12 +71,15 @@ app.get('/logout', function(req, res){
 
 
  var routes = require('./routes');
-// exports.index
 app.get('/', routes.index);
 
 app.get('/api/users', user.list);
 app.get('/api/users/:id', user.show);
 app.post('/api/users', user.post);
+
+//app.get('/api/users/:id/projects', user.listProjects);
+//app.get('/api/users/:id', user.showProject);
+//app.post('/api/users:', user.post);
 
 app.get('/api/projects', project.list);
 app.get('/api/projects/:id', project.show);
@@ -87,15 +89,10 @@ app.get('/api/comments', comment.list);
 app.get('/api/comments/:id', comment.show);
 app.post('/api/comments', comment.post);
 
-app.get('/api/artifacts', artifact.list);
-app.get('/api/artifacts/:id', artifact.show);
-app.post('/api/artifacts', artifact.post);
-
-
-//experiment to post revisions
 app.get('/api/projects/:id/revisions', project.listRevisons);
 app.get('/api/projects/:id/revisions/:rev', project.showRevison);
 app.post('/api/projects/:id/revisions', project.postRevision);
+
 
 
 // Pass middleware to use in the server

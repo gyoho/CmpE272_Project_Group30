@@ -1,5 +1,5 @@
 var Comment = require('../models/comment');
-var Artifact = require('../models/artifact');
+//var Artifact = require('../models/artifact');
 
 exports.list = function(req, res){
 	Comment.find({},function (err, list) {
