@@ -46,6 +46,7 @@ $(document).ready(function(){
           for(var i=0; i<projects.length; i++){
             list += '<li data-id="'+ projects[i]._id +'" data-dismiss="modal" >' + projects[i].projectName + "</li>";
           }
+          $('#projectsList').empty();
           $('#projectsList').append(list);
           $('#projectsList li').click(function(){
             $.ajax({
