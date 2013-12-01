@@ -7,9 +7,9 @@ var mongoose = require('mongoose')
 // Creating a Schema
 var userSchema = Schema({
 
-    name: { type: String, require: true},
-    email: { type: String, require: true, unique: true },
-    password: { type: String, required: true },
+	name: { type: String, require: true},
+	email: { type: String, require: true, unique: true },
+	password: { type: String, required: true },
     created_date: {type:Date,default: Date.now}
 
 })

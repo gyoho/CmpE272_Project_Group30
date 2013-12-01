@@ -44,7 +44,8 @@ $(document).ready(function(){
           var list ="";
 
           for(var i=0; i<projects.length; i++){
-            list += '<li data-id="'+ projects[i]._id +'" data-dismiss="modal" >' + projects[i].projectName + "</li>";
+         /**list += <li data-id= + "projects[i]._id"> + projects[i].projectName + "<a href="'#'">" + "</a>" + "</li>";**/
+            list += '<li data-id="' + projects[i]._id + '"> <a href="#">' + projects[i].projectName + '</a> </li>';
           }
           $('#projectsList').empty();
           $('#projectsList').append(list);
