@@ -11,6 +11,10 @@
 	padding-right: 5px;
 }
 
+.nav-tabs{
+	float: left;
+}
+
 #toolbox {
 	/*background-color: lightgray;
 	border-radius: 20px;
@@ -62,5 +66,5 @@
 }
 
 .error{
-	
+	display: inline;	
 }

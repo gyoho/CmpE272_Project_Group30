@@ -48,13 +48,6 @@
                   Load <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" id="projectsList">            
-                  <!-- Show the list of projects' name -->
-      <!--
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-      -->
                 </ul>
               </div>
             </div>
@@ -71,7 +64,7 @@
   </nav>
 
   <div class="col-sm-2" id="toolbox">
-    <ul class="">
+    <ul class="template">
        <li class="btn-group">
           <button type="button" class="btn btn-default navbar-btn">Templates</button>
           <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
@@ -84,6 +77,22 @@
           </ul>
         </li>
     </ul>
+    
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+      <li><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-search"></span></a></li>
+      <li><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-check"></span></a></li>
+      <li><a href="#messages" data-toggle="tab"><span class="glyphicon glyphicon-collapse-up"></span></a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="home">...</div>
+      <div class="tab-pane fade" id="profile">...</div>
+      <div class="tab-pane fade" id="messages">...</div>
+      <div class="tab-pane fade" id="settings">...</div>
+    </div>
+
     <ul class="iconbox">
       <li><button type="button" class="btn btn-default btn-lg">
           <span class="glyphicon glyphicon-comment"></span>

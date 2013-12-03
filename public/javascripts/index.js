@@ -75,23 +75,6 @@ $(document).ready(function(){
     //console.dir(json);     
   });
 
-/**
-  $('#loadButton').click(function(){
-    // save stage as a json string
-    $.ajax({
-      type: "GET",
-      url: "/api/projects/52905c0627a006d43e000004",
-      success: function(data){
-        console.log("Loaded");//,data.revision[0].data);
-        initStage( Kinetic.Node.create(data.revision[0].data, 'container'));
-      },
-      dataType: "json"
-    });
-    //console.dir(json);     
-  });
-**/
-
-
   $('.error').hide();
 
   $("#registerButton").click(function() {  
@@ -204,8 +187,7 @@ $(document).ready(function(){
   $('.iconbox button').click(function(){
     addText("\uE060");
   });
-
-
+  
 });
 
 function initStage(loaded) {
