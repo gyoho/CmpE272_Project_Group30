@@ -5,10 +5,11 @@
 var Project = require('../models/project');
 
 exports.list = function(req, res){
+  debugger;
   if(!req.isAuthenticated())
     res.send(401);
   else{
-    Project.find({owner: req.user.email},function (err, list) {
+    Project.find({users: req.user.email},function (err, list) {
     if (err) return err;
     res.send(list);
     });
@@ -45,7 +46,7 @@ exports.post = function(req, res) {
       var project;
 
       //create a single model with posted data
-      project = new Project({'projectName': projectName, 'owner': owner, 'revision': [] });
+      project = new Project({'projectName': projectName, 'owner': owner, 'revision': [] ,'users' : [owner]});
 
        //insert data in array
       project.revision.push({'canvasData':data});
@@ -124,5 +125,38 @@ exports.postRevision = function(req, res) {
     else {
       res.send(400, {status: "Bad Request: Project not created"});
     }
+  }
+}
+
+
+exports.addUser = function(req,res) {
+    debugger;
+    if(!req.isAuthenticated())
+    res.send(401);
+  else{
+    var projectId = req.body.projectId;
+    var user = req.body.user;
+    Project.update({'projectName' : projectId},                           
+            { $pull: 
+              {users: user}
+            },
+            {safe: true, upsert: false},
+            function(err){   
+              Project.update({'projectName' : projectId},                           
+                { $push: 
+                  {users: user}
+                },
+                {safe: true, upsert: false},
+                function(err){   
+                  debugger;
+                  if(err){ 
+                    res.send(401,"User adding failed");
+                  } else { 
+                    res.send(200,"User added successfully");
+                  }
+                }
+              );
+            }
+    ); 
   }
 }

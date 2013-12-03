@@ -10,6 +10,7 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var project = require('./routes/project');
 var comment = require('./routes/comment');
+//var artifact = require('./routes/artifact');
 var http = require('http');
 var path = require('path');
 var pass = require('./config/passport');
@@ -19,7 +20,7 @@ var passport = require('passport');
 // Declare mongoose
 var mongoose = require('mongoose');
 // open a connection to the test database
-mongoose.connect( process.env.MONGOLAB_URI || 'mongodb://localhost/cmpe272');
+mongoose.connect('mongodb://localhost/cmpe272');
 
 
 var app = express();
@@ -30,7 +31,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 // Setting view engine to ejs
 app.set('view engine', 'ejs');
-// Setting tab icon called favicon
+// Setting tab icon called fav
 app.use(express.favicon());
 // Logging middleware (Get better error report)
 app.use(express.logger('dev'));
@@ -59,11 +60,12 @@ app.post('/login', passport.authenticate('local'), function(req, res) {
     // `req.user` contains the authenticated user.
     //res.redirect('/users/' + req.user.username);
     console.log("Logged In");
-    res.send({status:"Success"});
+    res.send("Success");
 });
 
 
 app.get('/logout', function(req, res){
+  debugger;
   console.log("Logged Out");
   req.logout();
   res.redirect('/');
@@ -71,28 +73,32 @@ app.get('/logout', function(req, res){
 
 
  var routes = require('./routes');
+// exports.index
 app.get('/', routes.index);
 
 app.get('/api/users', user.list);
 app.get('/api/users/:id', user.show);
 app.post('/api/users', user.post);
 
-//app.get('/api/users/:id/projects', user.listProjects);
-//app.get('/api/users/:id', user.showProject);
-//app.post('/api/users:', user.post);
-
 app.get('/api/projects', project.list);
 app.get('/api/projects/:id', project.show);
+//app.get('/api/projects/userProjects/:userId', project.showUserProjects);
 app.post('/api/projects', project.post);
+app.post('/api/projects/addUser', project.addUser);
 
 app.get('/api/comments', comment.list);
 app.get('/api/comments/:id', comment.show);
 app.post('/api/comments', comment.post);
 
+// app.get('/api/artifacts', artifact.list);
+// app.get('/api/artifacts/:id', artifact.show);
+// app.post('/api/artifacts', artifact.post);
+
+
+//experiment to post revisions
 app.get('/api/projects/:id/revisions', project.listRevisons);
 app.get('/api/projects/:id/revisions/:rev', project.showRevison);
 app.post('/api/projects/:id/revisions', project.postRevision);
-
 
 
 // Pass middleware to use in the server

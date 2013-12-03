@@ -16,7 +16,8 @@ var canvasSchema = Schema({
 var projectSchema = Schema({
 	projectName: { type: String, require: true },
 	owner: { type: String, require: true },
-	revision: [canvasSchema]
+	revision: [canvasSchema],
+	users: [{ type: String}]
 	//member: Array
 })
 

@@ -5,8 +5,6 @@
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/jquery-ui.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="css/project.css"/>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .stage canvas {
             border: 1px solid #555 !important;
@@ -44,13 +42,28 @@
 </head>
 <body ng-controller="EditorCtrl">
 <nav class="navbar navbar-default" role="navigation">
-
     <ul class="nav navbar-nav">
-        
-       
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">File <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a ng-click="exportToJSON()" data-toggle="modal" data-target="#stageSourceModal">Export to JSON</a></li>
+                <li><a ng-click="downloadImage()">Download PNG</a></li>
+                <li><a data-toggle="modal" data-target="#importJSONModal">Import JSON</a></li>
+                <li><a ng-click="clearStage()">Clear stage</a></li>
+                <li><a ng-click="save()">Save</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">View <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a ng-click="toggleSnapToGrid()">Snap to grid</a></li>
+                <li><a ng-click="toggleGrid()">Toggle grid</a></li>
+                <li><a ng-click="increaseGridDensity()">Increase grid density</a></li>
+                <li><a ng-click="decreaseGridDensity()">Decrease grid density</a></li>
+            </ul>
+        </li>
     </ul>
     <span class="navbar-form navbar-right">
-  <!--
        <button class="btn btn-default btn-xs" ng-click="undo()" ng-disabled="!isUndoAvailable()" title="Undo">
            <span class="glyphicon glyphicon-arrow-left"></span>
        </button>
@@ -72,74 +85,12 @@
        <button class="btn btn-default btn-xs" ng-click="lock()" ng-disabled="null==selectedComponent" title="Lock">
            <span class="glyphicon glyphicon-lock"></span>
        </button>
-
-   -->
-        <div id="navbar-collapse-1" class="collapse navbar-collapse navbar-ex1-collapse">
-                  <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import / Export <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a ng-click="exportToJSON()" data-toggle="modal" data-target="#stageSourceModal">Export to JSON</a></li>
-                            <li><a data-toggle="modal" data-target="#importJSONModal">Import JSON</a></li>
-                            
-                            
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Image <b class="caret"></b></a>
-                         <ul class="dropdown-menu">
-                            <li><a ng-click="downloadImage()">Download Image</a></li>
-                            <li><a ng-click="downloadImage()">Upload Image</a></li>
-                        </ul>
-                    </li>
-                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Grid Actions<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a ng-click="toggleSnapToGrid()">Snap to grid</a></li>
-                            <li><a ng-click="toggleGrid()">Toggle grid</a></li>
-                            <li><a ng-click="increaseGridDensity()">Increase grid density</a></li>
-                            <li><a ng-click="decreaseGridDensity()">Decrease grid density</a></li>
-                        </ul>
-                    </li>
-                       <li>
-                          <form class="navbar-form navbar-left">
-                            <div class="form-group">
-                              <input id="projectName" type="text" class="form-control" placeholder="Artifact Name">
-                            </div>
-                            <label for="projectName" class="col-sm-2 control-label error" id="projectName_error">Error</label>
-                            <button ng-click="save()" type="button" class="btn btn-default" id="saveButton" >Save</button>
-                          </form>
-
-                        </li>
-                        <li>
-                            <button ng-click="clearStage()" type="button" class="btn btn-default navbar-btn" id="clearButton">Clear stage</button>
-                        </li>
-                        <li>
-                             <button type="button" ng-click="shareUser()" data-toggle="modal" data-target="#shareUser" class="btn btn-default navbar-btn" id="shareButton">Share</button>
-                        </li>
-                        <li>
-                          <form class="navbar-form navbar-left">
-                            <div class="form-group">
-                              <div class="btn-group">
-                                <button type="button" ng-click="loadOneMoreProject()"class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="loadButton">
-                                     Load <span class="caret"></span>
-                                </button>
-                                    <ul class="dropdown-menu"  role="menu" id="projectsList">            
-                                    </ul>
-                              </div>
-                            </div>
-                          </form>
-                        </li>
-                        
-                       <li id="loginMenu" <% if(user){ %> style="display: none;" <%}%> >
-                          <button data-toggle="modal" data-target="#login" type="button" class="btn btn-default navbar-btn"  >Login</button>
-                        </li>
-                        <li id="logoutMenu" <% if(!user){ %> style="display: none;" <%}%> >
-                          <button id="logoutButton" type="button" class="btn btn-primary navbar-btn">Logout</button>
-                        </li>   
-                  </ul>
-        </div>
     </span>
+
+    <form class="navbar-form navbar-right">
+        <!--suppress HtmlFormInputWithoutLabel -->
+        <input type="text" class="form-control" placeholder="Search" suggest="search" suggest-select="addToStageFromSearch">
+    </form>
 </nav>
 
 <div class="palette">
@@ -279,33 +230,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="shareUser" tabindex="-1" role="dialog" aria-labelledby="shareUserTitle" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="shareUserTitle">Share with Users</h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="demo">
-                    <p>Select Multiple users you wish to share</p>    
-                    <form id="userForm">
-                        <ul id="draggable">
-                            
-                         </ul>
-
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                <button type="button" ng-click="updateProject()" class="btn btn-primary" data-dismiss="modal">Share</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="importJSONModal" tabindex="-1" role="dialog" aria-labelledby="importJSONModalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -324,87 +248,6 @@
         </div>
     </div>
 </div>
-
-  <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="loginLabel">Log in</h4>
-        </div>
-        <div class="modal-body">
-          <!-- Horizontal form -->
-          <!-- http://getbootstrap.com/css/?#forms -->
-          <form class="form-horizontal" role="form">
-            <div class="form-group">
-              <label for="email" class="col-sm-2 control-label">Email</label>
-              <div class="col-sm-10">
-                <input type="email" class="form-control" id="email" placeholder="Email">
-                <span class="label label-warning error" id="email_error">Error</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-              <div class="col-sm-10">
-                <input type="password" class="form-control" id="password" placeholder="Password">
-                <span class="label label-warning error" id="password_error">Error</span>
-              </div>
-            </div>
-          </form>
-        </div><!-- End of horizonal form -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#register">Register</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="loginButton">Login</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-   <!-- Modal -->
-  <!-- http://getbootstrap.com/javascript/#modals -->
-  <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="registerLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="registerLabel">Register</h4>
-        </div>
-        <div class="modal-body">
-          <!-- Horizontal form -->
-          <!-- http://getbootstrap.com/css/?#forms -->
-          <form class="form-horizontal" role="form">
-            <div class="form-group">
-              <label for="useName" class="col-sm-2 control-label">Name</label>
-              <div class="col-sm-10">
-                <input type="userName" class="form-control" id="userName" placeholder="Name">
-                <span class="label label-warning error" id="userName_error">Error</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="email" class="col-sm-2 control-label">Email</label>
-              <div class="col-sm-10">
-                <input type="email" class="form-control" id="registerEmail" placeholder="Email">
-                <span class="label label-warning error" id="email_error">Error</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="password" class="col-sm-2 control-label">Password</label>
-              <div class="col-sm-10">
-                <input type="password" class="form-control" id="registerPassword" placeholder="Password">
-                <span class="label label-warning error" id="password_error">Error</span>
-              </div>
-            </div>
-          </form>
-        </div><!-- End of horizonal form -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="registerButton">Register</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
 
 <!--Google fonts need to be preloaded. Otherwise KineticJS cannot render them for the first time.-->
 <div ng-repeat="font in availableFonts" ng-init="style={'font-family':font,'font-size':0,'line-height':0}" ng-style="style">{{ font }}</div>
@@ -481,7 +324,6 @@
 <script src="js/src/app/editorCtrl.js"></script>
 <script src="js/jquery-ui-1.10.3.js"></script>
 <script src="js/bootstrap.js"></script>
-<script src="js/project.js"></script>
 <script>
     jQuery(function ()
     {
@@ -492,55 +334,6 @@
         form.offset({top: stage.offset().top + 20, left: stage.width() - form.width() - 20});
         form.removeClass("show-no-matter-what");
     });
-
-    var selectedClass = 'ui-state-highlight',
-        clickDelay = 600,     // click time (milliseconds)
-        lastClick, diffClick; // timestamps
-
-    $("#draggable li")
-        // Script to deferentiate a click from a mousedown for drag event
-        .bind('mousedown mouseup', function(e){
-            if (e.type=="mousedown") {
-                lastClick = e.timeStamp; // get mousedown time
-            } else {
-                diffClick = e.timeStamp - lastClick;
-                if ( diffClick < clickDelay ) {
-                    // add selected class to group draggable objects
-                    $(this).toggleClass(selectedClass);
-                }
-            }
-        })
-        .draggable({
-            revertDuration: 10, // grouped items animate separately, so leave this number low
-            containment: '.demo',
-            start: function(e, ui) {
-                ui.helper.addClass(selectedClass);
-            },
-            stop: function(e, ui) {
-                // reset group positions
-                $('.' + selectedClass).css({ top:0, left:0 });
-            },
-            drag: function(e, ui) {
-                // set selected group position to main dragged object
-                // this works because the position is relative to the starting position
-                $('.' + selectedClass).css({
-                    top : ui.position.top,
-                    left: ui.position.left
-                });
-            }
-        });
-
-    $("#droppable, #draggable")
-        .sortable()
-        .droppable({
-            drop: function(e, ui) {
-                $('.' + selectedClass)
-                 .appendTo($(this))
-                 .add(ui.draggable) // ui.draggable is appended by the script, so add it after
-                 .removeClass(selectedClass)
-                 .css({ top:0, left:0 });
-            }
-        });
 </script>
 </body>
 </html>
