@@ -4,195 +4,208 @@ $(document).ready(function(){
   initStage();
   //$('#logoutMenu').hide();
 
-    //TODO add data attributes to index.EJS
-    $('.iconbox button').click(function(){
-      addText("\uE060");
-    });
+  $('#newProjectButton').click(function(){
+    $("input#projectName").val("");
+    initStage();
+  });
 
-    $('#saveButton').click(function(){
-      // 
-      //
-      $('.error').hide();  
-      var projectName = $("input#projectName").val();  
-      if (projectName == "") {  
-        $("label#projectName_error").show();  
-        $("input#projectName").focus();  
-        return false;  
-      }  
-      else{
-        // save stage as a json string
-        var json = kin.stage.toJSON();
+/*
+  $(kin.stage).dblclick(function(){
+    $(this).remove();
+    console.log(this);
+    kin.stage.batchDraw();
+  });
+*/
 
-        $.ajax({
-          type: "POST",
-          url: "/api/projects",
-          data: {projectName: projectName, data:json},
-          success: function(data){console.log("Saved",data)},
-          fail: function(data){console.log("Saved",data)},
-          dataType: "json"
-        });
-      }
-    });
+  $('#saveButton').click(function(){
+    // 
+    //
+    $('.error').hide();  
+    var projectName = $("input#projectName").val();  
+    if (projectName == "") {  
+      $("label#projectName_error").show();  
+      $("input#projectName").focus();  
+      return false;  
+    }  
+    else{
+      // save stage as a json string
+      var json = kin.stage.toJSON();
 
-
-    $('#loadButton').click(function(){
-      // load stage as a json string
       $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/api/projects",
-        success: function(projects){
-          var list ="";
-
-          for(var i=0; i<projects.length; i++){
-         /**list += <li data-id= + "projects[i]._id"> + projects[i].projectName + "<a href="'#'">" + "</a>" + "</li>";**/
-            list += '<li data-id="' + projects[i]._id + '"> <a href="#">' + projects[i].projectName + '</a> </li>';
-          }
-          $('#projectsList').empty();
-          $('#projectsList').append(list);
-          $('#projectsList li').click(function(){
-            $.ajax({
-              type: "GET",
-              url: "/api/projects/" + $(this).data("id"),
-              success: function(data){
-                console.log("Loaded");//,data.revision[0].data);
-                initStage( Kinetic.Node.create(data.revision[0].canvasData, 'container'));
-                $("input#projectName").val(data.projectName);
-                $("input#projectName").data("id" , data._id);
-              },
-              dataType: "json"
-            });
-          });
-        },
+        data: {projectName: projectName, data:json},
+        success: function(data){console.log("Saved",data)},
+        fail: function(data){console.log("Saved",data)},
         dataType: "json"
       });
-      //console.dir(json);     
+    }
+  });
+
+
+  $('#loadButton').click(function(){
+    // load stage as a json string
+    $.ajax({
+      type: "GET",
+      url: "/api/projects",
+      success: function(projects){
+        var list ="";
+
+        for(var i=0; i<projects.length; i++){
+          list += '<li data-id="' + projects[i]._id + '"> <a href="#">' + projects[i].projectName + '</a> </li>';
+        }
+        $('#projectsList').empty();
+        $('#projectsList').append(list);
+        $('#projectsList li').click(function(){
+          $.ajax({
+            type: "GET",
+            url: "/api/projects/" + $(this).data("id"),
+            success: function(data){
+              console.log("Loaded");//,data.revision[0].data);
+              initStage( Kinetic.Node.create(data.revision[0].canvasData, 'container'));
+              $("input#projectName").val(data.projectName);
+              $("input#projectName").data("id" , data._id);
+            },
+            dataType: "json"
+          });
+        });
+      },
+      dataType: "json"
     });
+    //console.dir(json);     
+  });
 
 /**
-    $('#loadButton').click(function(){
-      // save stage as a json string
-      $.ajax({
-        type: "GET",
-        url: "/api/projects/52905c0627a006d43e000004",
-        success: function(data){
-          console.log("Loaded");//,data.revision[0].data);
-          initStage( Kinetic.Node.create(data.revision[0].data, 'container'));
-        },
-        dataType: "json"
-      });
-      //console.dir(json);     
+  $('#loadButton').click(function(){
+    // save stage as a json string
+    $.ajax({
+      type: "GET",
+      url: "/api/projects/52905c0627a006d43e000004",
+      success: function(data){
+        console.log("Loaded");//,data.revision[0].data);
+        initStage( Kinetic.Node.create(data.revision[0].data, 'container'));
+      },
+      dataType: "json"
     });
+    //console.dir(json);     
+  });
 **/
 
-    //$('#mobileIcon').click(addMobileImg);
 
-    $('#mobileWindow').click(function(){
-        addMobileImg();
-    });
+  $('.error').hide();
 
-    $('#laptopWindow').click(function(){
-        addLaptopImg();
-    });
+  $("#registerButton").click(function() {  
+  // validate and process form here
 
-    $('.error').hide();
-
-    $("#registerButton").click(function() {  
-    // validate and process form here
-
-      $('.error').hide();  
-        var name = $("input#userName").val();  
-          if (name == "") {  
-        $(".error").show();  
-        $("input#userName").focus();  
-        return false;  
-      }  
-        var email = $("input#registerEmail").val();  
-          if (email == "") {  
-        $(".error").show();  
-        $("input#email").focus();  
-        return false;  
-      }  
-        var password = $("input#registerPassword").val();  
-          if (password == "") {  
-        $("label#password_error").show();
-        $("input#password").focus();  
-        return false;  
-      }
-
-      var dataString = 'userName='+ name + '&email=' + email + '&password=' + password;  
-      //alert (dataString);return false;  
-      $.ajax({  
-        type: "POST",  
-        url: "/api/users",  
-        data: dataString,  
-        success: function() {  
-        /*  $('#contact_form').html("<div id='message'></div>");  
-          $('#message').html("<h2>Contact Form Submitted!</h2>")  
-          .append("<p>We will be in touch soon.</p>")  
-          .hide()  
-          .fadeIn(1500, function() {  
-            $('#message').append("<img id='checkmark' src='images/check.png'/>");
-          });*/  
-          $('#register').modal('hide');
-          $('#loginMenu').hide();
-          $('#logoutMenu').show();
-        }  
-      });  
+    $('.error').hide();  
+      var name = $("input#userName").val();  
+        if (name == "") {  
+      $("#userName_error").show();  
+      $("input#userName").focus();  
       return false;  
+    }  
+      var email = $("input#registerEmail").val();  
+        if (email == "") {  
+      $("#email_error").show();  
+      $("input#email").focus();  
+      return false;  
+    }  
+      var password = $("input#registerPassword").val();  
+        if (password == "") {  
+      $("#password_error").show();
+      $("input#password").focus();  
+      return false;  
+    }
+
+    var dataString = 'userName='+ name + '&email=' + email + '&password=' + password;  
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "POST",  
+      url: "/api/users",  
+      data: dataString,  
+      success: function() {  
+      /*  $('#contact_form').html("<div id='message'></div>");  
+        $('#message').html("<h2>Contact Form Submitted!</h2>")  
+        .append("<p>We will be in touch soon.</p>")  
+        .hide()  
+        .fadeIn(1500, function() {  
+          $('#message').append("<img id='checkmark' src='images/check.png'/>");
+        });*/  
+        $('#register').modal('hide');
+        $('#loginMenu').hide();
+        $('#logoutMenu').show();
+      }  
+    });  
+    return false;  
   });
 
   $("#loginButton").click(function() {
   // validate and process form here
-      $('.error').hide();  
-      var email = $("input#email").val();  
+    $('.error').hide();  
+    var email = $("input#email").val();  
 
-      if (email == "") {  
-        $("label#email_error").show();  
-        $("input#email").focus();  
-        return false;  
+    if (email == "") {  
+      $("#email_error").show();  
+      $("input#email").focus();  
+      return false;  
+    }  
+    var password = $("input#password").val();  
+
+    if (password == "") {  
+      $("#password_error").show();  
+      $("input#password").focus();  
+      return false; 
+    }
+
+    var dataString = 'email=' + email + '&password=' + password;  
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "POST",  
+      url: "/login",  
+      data: dataString,  
+      success: function() {  
+        $('#login').modal('hide');
+        $('#loginMenu').hide();
+        $('#logoutMenu').show();
+        $('#loadButton').show();
       }  
-      var password = $("input#password").val();  
-
-      if (password == "") {  
-        $("label#password_error").show();  
-        $("input#password").focus();  
-        return false; 
-      }
-
-      var dataString = 'email=' + email + '&password=' + password;  
-      //alert (dataString);return false;  
-      $.ajax({  
-        type: "POST",  
-        url: "/login",  
-        data: dataString,  
-        success: function() {  
-        /*  $('#contact_form').html("<div id='message'></div>");  
-          $('#message').html("<h2>Contact Form Submitted!</h2>")  
-          .append("<p>We will be in touch soon.</p>")  
-          .hide()  
-          .fadeIn(1500, function() {  
-            $('#message').append("<img id='checkmark' src='images/check.png'/>");
-          });*/  
-          $('#login').modal('hide');
-          $('#loginMenu').hide();
-          $('#logoutMenu').show();
-        }  
-      });  
-      return false;  
+    });  
+    return false;  
   }); 
-$("#logoutButton").click(function() {
-  // validate and process form here
-      //alert (dataString);return false;  
-      $.ajax({  
-        type: "GET",  
-        url: "/logout",   
-        success: function() {
-          $('#logoutMenu').hide();
-          $('#loginMenu').show();
-        }  
-      });  
-      return false;  
-  }); 
+
+  $("#logoutButton").click(function() {
+    // validate and process form here
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "GET",  
+      url: "/logout",   
+      success: function() {
+        $('#logoutMenu').hide();
+        $('#loginMenu').show();
+        $('#loadButton').hide();
+      }  
+    });
+
+    $('#projectsList').empty();
+
+    return false;  
+  });
+
+  //$('#mobileIcon').click(addMobileImg);
+  $('#mobileWindow').click(function(){
+      addMobileImg();
+  });
+
+  $('#laptopWindow').click(function(){
+      addLaptopImg();
+  });
+
+  //TODO add data attributes to index.EJS
+  $('.iconbox button').click(function(){
+    addText("\uE060");
+  });
+
+
 });
 
 function initStage(loaded) {
@@ -200,7 +213,7 @@ function initStage(loaded) {
     kin.stage = loaded;
 
     var array = kin.stage.find('Image');
-
+    kin.layer = kin.stage.children[0];
     $.each(array, function( index, image ) {
       var imageObj = new Image();
       //console.dir(image);
@@ -219,10 +232,19 @@ function initStage(loaded) {
       width: window.innerWidth,
       height: window.innerHeight,
     });
+      //create a single layer
+    kin.layer = new Kinetic.Layer();
   }
   
-  //create a single layer
-  kin.layer = new Kinetic.Layer();
+
+  kin.layer.on('dblclick', function(evt){
+    //var blah=evt.targetNode;
+    evt.targetNode.remove();
+    kin.stage.batchDraw();
+
+    //console.dir(evt.targetNode);
+  });
+
   //add it to Kinetic stage (canvas)
   kin.stage.add(kin.layer);
 }
@@ -312,5 +334,8 @@ function addText(string){
   //kin.stage.add(layer);
 
   kin.stage.batchDraw();
+  // kin.stage or kin.layer
 }
+
+
 

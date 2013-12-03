@@ -28,11 +28,14 @@
     <div id="navbar-collapse-1" class="collapse navbar-collapse navbar-ex1-collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
+          <button type="button" class="btn btn-default navbar-btn" id="newProjectButton">New project</button>
+        </li>
+        <li>
           <form class="navbar-form navbar-left">
             <div class="form-group">
               <input id="projectName" type="text" class="form-control" placeholder="Project Name">
+              <span class="label label-warning error" id="projectName_error">Error</span>
             </div>
-            <label for="projectName" class="col-sm-2 control-label error" id="projectName_error">Error</label>
             <button type="button" class="btn btn-default" id="saveButton" >Save</button>
           </form>
         </li>
@@ -40,8 +43,8 @@
         <li>
           <form class="navbar-form navbar-left">
             <div class="form-group">
-              <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="loadButton">
+              <div class="btn-group" >
+                <button <% if(!user){ %> style="display: none;" <%}%> type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="loadButton">
                   Load <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" id="projectsList">            
@@ -57,7 +60,6 @@
             </div>
           </form>
         </li>
-       
         <li id="loginMenu" <% if(user){ %> style="display: none;" <%}%> >
           <button data-toggle="modal" data-target="#login" type="button" class="btn btn-default navbar-btn"  >Login</button>
         </li>
@@ -171,15 +173,15 @@
               <label for="email" class="col-sm-2 control-label">Email</label>
               <div class="col-sm-10">
                 <input type="email" class="form-control" id="email" placeholder="Email">
+                <span class="label label-warning error" id="email_error">Error</span>
               </div>
-              <label for="email" class="col-sm-2 control-label error" id="email_error">Error</label>
             </div>
             <div class="form-group">
               <label for="inputPassword" class="col-sm-2 control-label">Password</label>
               <div class="col-sm-10">
                 <input type="password" class="form-control" id="password" placeholder="Password">
+                <span class="label label-warning error" id="password_error">Error</span>
               </div>
-              <label for="password" class="col-sm-2 control-label error" id="password_error">Error</label>
             </div>
           </form>
         </div><!-- End of horizonal form -->
@@ -209,22 +211,22 @@
               <label for="useName" class="col-sm-2 control-label">Name</label>
               <div class="col-sm-10">
                 <input type="userName" class="form-control" id="userName" placeholder="Name">
+                <span class="label label-warning error" id="userName_error">Error</span>
               </div>
-              <label for="userName" class="col-sm-2 control-label error" id="userName_error">Error</label>
             </div>
             <div class="form-group">
               <label for="email" class="col-sm-2 control-label">Email</label>
               <div class="col-sm-10">
                 <input type="email" class="form-control" id="registerEmail" placeholder="Email">
+                <span class="label label-warning error" id="email_error">Error</span>
               </div>
-              <label for="registerEmail" class="col-sm-2 control-label error" id="email_error">Error</label>
             </div>
             <div class="form-group">
               <label for="password" class="col-sm-2 control-label">Password</label>
               <div class="col-sm-10">
                 <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+                <span class="label label-warning error" id="password_error">Error</span>
               </div>
-              <label for="registerPassword" class="col-sm-2 control-label error" id="password_error">Error</label>
             </div>
           </form>
         </div><!-- End of horizonal form -->
