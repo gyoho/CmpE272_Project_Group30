@@ -10,7 +10,6 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var project = require('./routes/project');
 var comment = require('./routes/comment');
-//var artifact = require('./routes/artifact');
 var http = require('http');
 var path = require('path');
 var pass = require('./config/passport');
@@ -20,7 +19,7 @@ var passport = require('passport');
 // Declare mongoose
 var mongoose = require('mongoose');
 // open a connection to the test database
-mongoose.connect('mongodb://localhost/cmpe272');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/cmpe272');
 
 
 var app = express();
