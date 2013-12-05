@@ -3,7 +3,7 @@
 This is our node express web application which helps teams prototype and wireframe project ideas. 
 
 #### Demo running on heroku 
-[Live Demo](http://) 
+[Live Demo](http://cmpe272-project-group30.herokuapp.com/) 
 
 ## Pre-Install 
 1. Install [Git](http://git-scm.com/book/en/Getting-Started-Installing-Git) 
