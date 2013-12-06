@@ -4,13 +4,15 @@ $(document).ready(function(){
 
 //$.doImportJSON('/src/app/editorCtrl.doImportJSON.js');
 
-  $('#logoutMenu').hide();
-
+  /*$('#logoutMenu').hide();
+  $('#showArtifacts').hide();
+  $('#shareButton').hide();
+*/
   $('.error').hide();
 
     $("#registerButton").click(function() {  
     // validate and process form here
-
+     $("#login").modal('hide');
      $('.error').hide();  
       var name = $("input#userName").val();  
         if (name == "") {  
@@ -46,8 +48,11 @@ $(document).ready(function(){
           $('#message').append("<img id='checkmark' src='images/check.png'/>");
         });*/  
         $('#register').modal('hide');
-        $('#loginMenu').hide();
-        $('#logoutMenu').show();
+        //$("#login").modal('show');
+        $('#loginMenu').show();
+       // $('#logoutMenu').show();
+        // $('#showArtifacts').show();
+        // $('#shareButton').show();
       }  
     });  
     return false;   
@@ -55,7 +60,7 @@ $(document).ready(function(){
 
   $("#loginButton").click(function() {
   // validate and process form here
-
+      $("#login").modal('show');
       $('.error').hide();  
         var email = $("input#email").val();  
           if (email == "") {  
@@ -87,12 +92,14 @@ $(document).ready(function(){
           $('#login').modal('hide');
           $('#loginMenu').hide();
           $('#logoutMenu').show();
+          $('#showArtifacts').show();
+          $('#shareButton').show();
         }  
       });  
       return false;  
   }); 
 
-$("#logoutButton").click(function() {
+/*$("#logoutButton").click(function() {
   // validate and process form here
       //alert (dataString);return false;  
       $.ajax({  
@@ -101,12 +108,17 @@ $("#logoutButton").click(function() {
         success: function() {
           $('#logoutMenu').hide();
           $('#loginMenu').show();
+          $('#projectName').val("");
+          $('#projectId').val("");
+          $('#projectsList').empty();
+          $scope.stage.clear();
         }  
       });  
 
-      $('#projectsList').empty();
+
+      
       return false;  
-  }); 
+  }); */
 
 // $('#loadButton').click(function(){
 //   debugger;

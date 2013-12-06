@@ -396,9 +396,11 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
                 // console.log("Loaded");//,data.revision[0].data);
                 // initStage( Kinetic.Node.create(data.revision[0].canvasData, 'container'));
                // editController.ImportToStage(data.revision[0].canvasData);
-                  doImportJSON(data.revision[0].canvasData);
+                 $scope.stage.clear();
+                 doImportJSON(data.revision[0].canvasData);
                  $("input#projectName").val(data.projectName);
                  $("input#projectName").data("id" , data._id);
+                 $("#projectId").val(data._id);
               },
               dataType: "json"
             });
@@ -452,7 +454,6 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
                 }
                     //$('#draggable').append($li);
                     // $compile($li)($scope);
-                
           },
         dataType: "json"
       });
@@ -478,23 +479,50 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
         //     selected.push($(this).attr('id'));
         // });  
 
-       var selected =  $('#draggable').find('input[type="checkbox"]');
-       for(var i=0; i<selected.length; i++)
-        {
-            if(selected[i].checked)
+       //var selected =  $('#draggable').find('input[type="checkbox"]');
+       var selected =  $('#userEmail').val();
+       //for(var i=0; i<selected.length; i++)
+        //{
+            if(selected != "")
             {
-                var data = { projectId : $("#projectName").val() , user : selected[i].defaultValue};
-
+                var emails = selected.split(",");
+                for(var i=0; i<emails.length;i++) {
+                var data = { projectId : $("#projectId").val(), projectName : $("#projectName").val() , user : emails[i]};
+                debugger;
                 $.ajax({
                       type: "POST",
                       url: "/api/projects/addUser",
                       data: data,
-                      success: function(data){console.log("Saved",json)},
-                      fail: function(data){console.log("Saved",json)},
+                      success: function(data){
+                        console.log("Saved",json);
+                        //$window.alert("Shared Successfully");
+                        },
+                      fail: function(data){
+                        //$window.alert("Shared unsuccessful");
+                        console.log("Saved",json)},
                       dataType: "json"
                     });
+                 var maildata = {
+                         to: emails[i],
+                         message: 'Artifact '+ $("#projectName").val()+' shared by user: '
+                 }
+                $.ajax({  
+                    type: "POST",  
+                    url: "/api/email",  
+                    data: maildata,  
+                    success: function() { 
+
+                        debugger;
+                        //$window.alert("Sharing Successfull") ;
+                        console.log('mail sent');
+                    },
+                    fail: function(){
+                        //$window.alert("Sharing unsuccessfull");
+                        console.log("Saved",json)}  
+                });    
+                }
             }
-        }
+        //}
 
              
         // var childs =  $( "#draggable" ).children();
@@ -628,7 +656,7 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
             var pom = document.createElement('a');
 //            replace is a hack to force file download in firefox
             pom.setAttribute('href', data.replace(/^data:image\/[^;]/, 'data:application/octet-stream'));
-            pom.setAttribute('download', "AgidoMockup.png");
+            pom.setAttribute('download', $("#projectName").val()+'.png');
             pom.setAttribute('style', "display:none");
             document.body.appendChild(pom);
             pom.click();
@@ -639,6 +667,7 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
     function doImportJSON(json)
     {
         debugger;
+        //clearOnLogout();
         var deserializedObjects = JSON.parse(json);
         //var deserializedObjects = json.canvasData;
         for (var i = 0; i < deserializedObjects.length; i++) {
@@ -647,9 +676,7 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
             addToStage(component);
         }
     }
-
     
-
 // var ImportToStage= function (json)
 //     {
 //         var deserializedObjects = JSON.parse(json);
@@ -810,8 +837,30 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
         if ($window.confirm("Are you sure you want to clear stage?")) {
             markForUndo();
             $scope.stage.clear();
+            $('#projectName').val("");
+            $('#projectId').val("");
         }
     };
+
+    $scope.clearOnLogout = function ()
+    {
+        $.ajax({  
+            type: "GET",  
+            url: "/logout",   
+            success: function() {
+                $('#logoutMenu').hide();
+                $('#loginMenu').show();
+                $('#projectName').val("");
+                $('#projectId').val("");
+                $('#projectsList').empty();
+                $scope.stage.clear();
+                $('#showArtifacts').hide();
+                $('#shareButton').hide();
+                $('#email').val("");
+                $('#password').val("");
+        }  
+      });
+    };  
 
     $scope.lock = function ()
     {
@@ -837,6 +886,7 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
                     debugger;
                   $('.error').hide();  
                   var projectName = $("input#projectName").val();  
+                  var projectId = $("#projectId").val(); 
                   if (projectName == "") {  
                     $("label#projectName_error").show();  
                     $("input#projectName").focus();  
@@ -850,9 +900,18 @@ agidoMockups.controller("EditorCtrl", ["$scope", "$timeout", "$window", "$compil
                     $.ajax({
                       type: "POST",
                       url: "/api/projects",
-                      data: {projectName: projectName, data:json},
-                      success: function(data){console.log("Saved",json)},
-                      fail: function(data){console.log("Saved",json)},
+                      data: {projectName: projectName, projectId: projectId, data:json},
+                      success: function(data){
+                        console.log("Saved",data)
+                        $("#projectId").val(data.projectId);
+                        $window.alert("Saved Successfully"); 
+                        },
+                      fail: function(data){
+                        console.log("Saved",json)
+                        $("label#projectName_error").show();
+                        $("input#projectName").focus();
+                        $window.alert("Saved unsuccessful "+ data);
+                        },
                       dataType: "json"
                     });
                   }

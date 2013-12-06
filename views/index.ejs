@@ -80,16 +80,18 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Import / Export <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a ng-click="exportToJSON()" data-toggle="modal" data-target="#stageSourceModal">Export to JSON</a></li>
+                            <li><a ng-click="downloadImage()" data-toggle="modal">Export as Image</a></li>
                             <li><a data-toggle="modal" data-target="#importJSONModal">Import JSON</a></li>
                             
                             
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Image <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload Image<b class="caret"></b></a>
                          <ul class="dropdown-menu">
-                            <li><a ng-click="downloadImage()">Download Image</a></li>
-                            <li><a ng-click="downloadImage()">Upload Image</a></li>
+                            <li>
+                                <input ng-click="uploadImage()" id="uploadImage" type="file"/>
+                            </li>
                         </ul>
                     </li>
                      <li class="dropdown">
@@ -107,22 +109,23 @@
                               <input id="projectName" type="text" class="form-control" placeholder="Artifact Name">
                             </div>
                             <label for="projectName" class="col-sm-2 control-label error" id="projectName_error">Error</label>
+                            <label for="projectId" class="col-sm-2 control-label error" id="projectId"></label>
                             <button ng-click="save()" type="button" class="btn btn-default" id="saveButton" >Save</button>
                           </form>
 
                         </li>
                         <li>
-                            <button ng-click="clearStage()" type="button" class="btn btn-default navbar-btn" id="clearButton">Clear stage</button>
+                            <button ng-click="clearStage()" type="button" class="btn btn-default navbar-btn" id="clearButton">Clear All</button>
                         </li>
-                        <li>
-                             <button type="button" ng-click="shareUser()" data-toggle="modal" data-target="#shareUser" class="btn btn-default navbar-btn" id="shareButton">Share</button>
+                        <li  id="shareButton" <% if(!user){ %> style="display: none;" <%}%>>
+                           <button type="button" data-toggle="modal" data-target="#shareUser" class="btn btn-default navbar-btn" >Share</button>
                         </li>
-                        <li>
+                        <li id="showArtifacts" <% if(!user){ %> style="display: none;" <%}%>>
                           <form class="navbar-form navbar-left">
                             <div class="form-group">
-                              <div class="btn-group">
+                              <div class="btn-group" >
                                 <button type="button" ng-click="loadOneMoreProject()"class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="loadButton">
-                                     Load <span class="caret"></span>
+                                     Show Artifacts <span class="caret"></span>
                                 </button>
                                     <ul class="dropdown-menu"  role="menu" id="projectsList">            
                                     </ul>
@@ -135,7 +138,7 @@
                           <button data-toggle="modal" data-target="#login" type="button" class="btn btn-default navbar-btn"  >Login</button>
                         </li>
                         <li id="logoutMenu" <% if(!user){ %> style="display: none;" <%}%> >
-                          <button id="logoutButton" type="button" class="btn btn-primary navbar-btn">Logout</button>
+                          <button id="logoutButton" ng-click="clearOnLogout()" type="button" class="btn btn-primary navbar-btn">Logout</button>
                         </li>   
                   </ul>
         </div>
@@ -289,13 +292,8 @@
             <div class="modal-body">
 
                 <div class="demo">
-                    <p>Select Multiple users you wish to share</p>    
-                    <form id="userForm">
-                        <ul id="draggable">
-                            
-                         </ul>
-
-                    </form>
+                    <p>Enter comma seperated Email Id(s) of the users that you wish to share</p>    
+                    <input id="userEmail" type="text" class="form-control" placeholder="Email Id(s)"/>   
                 </div>
             </div>
             <div class="modal-footer">

@@ -10,16 +10,18 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var project = require('./routes/project');
 var comment = require('./routes/comment');
+//var artifact = require('./routes/artifact');
 var http = require('http');
 var path = require('path');
 var pass = require('./config/passport');
 var passport = require('passport');
+var email = require('./routes/email');
 
 
 // Declare mongoose
 var mongoose = require('mongoose');
 // open a connection to the test database
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/cmpe272');
+mongoose.connect('mongodb://localhost/cmpe272');
 
 
 var app = express();
@@ -88,6 +90,7 @@ app.post('/api/projects/addUser', project.addUser);
 app.get('/api/comments', comment.list);
 app.get('/api/comments/:id', comment.show);
 app.post('/api/comments', comment.post);
+app.post('/api/email',email.post);
 
 // app.get('/api/artifacts', artifact.list);
 // app.get('/api/artifacts/:id', artifact.show);

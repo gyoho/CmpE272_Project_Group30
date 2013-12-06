@@ -34,16 +34,59 @@ exports.post = function(req, res) {
   if(!req.isAuthenticated())
     res.send(401);
   else{
-    if(req.body.hasOwnProperty('projectName') && req.body.hasOwnProperty('data')){
+    if(req.body.hasOwnProperty('projectName') && req.body.hasOwnProperty('projectId') && req.body.hasOwnProperty('data')){
       //DEBUG
       //console.log(" - Project Created - ");
       //console.log("Name: " + req.body.name);
       //console.log("Owner: " + req.body.owner);
-
+      debugger;
       var projectName = req.body.projectName;
+      var projectId = req.body.projectId;
       var owner = req.user.email;
       var data = req.body.data;
       var project;
+
+      Project.findOne({'_id': projectId} ,function (err, project) {
+        debugger;
+        if(!project) {
+          var projectNew = new Project({'projectName': projectName, 'owner': owner, 'revision': [] ,'users' : [owner]});
+          //insert data in array
+          projectNew.revision.push({'canvasData':data});
+          //save model
+          projectNew.save();
+          res.send(201, {status: "Project Saved", projectId: projectNew['_id']});
+        } else {
+          Project.update({'_id' : projectId},                           
+              { $set: 
+                {revision: [{'canvasData':data}]}
+              },
+              {safe: true, upsert: false},
+              function(err){   
+                debugger;
+                if(err){ 
+                  res.send(401,"save failed");
+                } else { 
+                  res.send(201, {status: "Project Saved"});
+                }
+              }
+          );  
+        }
+        
+      });                  
+      /*Project.update({'projectName' : projectId},                           
+        { $set: 
+                  {revision: [{'canvasData':data}]}
+        },
+        {safe: true, upsert: false},
+        function(err){   
+          debugger;
+          if(err){ 
+            res.send(401,"save failed");
+          } else { 
+            res.send(200,"saved successfully");
+          }
+        }
+      );
 
       //create a single model with posted data
       project = new Project({'projectName': projectName, 'owner': owner, 'revision': [] ,'users' : [owner]});
@@ -55,7 +98,7 @@ exports.post = function(req, res) {
       project.save();
 
       //Output response response to user.
-      res.send(201, {status: "Project Created", id: project['_id']});
+      res.send(201, {status: "Project Created", id: project['_id']});*/
     }
     else {
       res.send(400, {status: "Bad Request: Project not created"});
@@ -136,13 +179,13 @@ exports.addUser = function(req,res) {
   else{
     var projectId = req.body.projectId;
     var user = req.body.user;
-    Project.update({'projectName' : projectId},                           
+    Project.update({'_id' : projectId},                           
             { $pull: 
               {users: user}
             },
             {safe: true, upsert: false},
             function(err){   
-              Project.update({'projectName' : projectId},                           
+              Project.update({'_id' : projectId},                           
                 { $push: 
                   {users: user}
                 },

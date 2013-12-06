@@ -11,6 +11,7 @@
     "ejs": "*",
     "passport": "*", 
     "bcrypt": "*",
+    "emailjs": "*",
     "passport-local": "*"
   },
    "engines": {
