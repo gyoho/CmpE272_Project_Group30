@@ -21,7 +21,7 @@ var email = require('./routes/email');
 // Declare mongoose
 var mongoose = require('mongoose');
 // open a connection to the test database
-mongoose.connect('mongodb://localhost/cmpe272');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/cmpe272');
 
 
 var app = express();
