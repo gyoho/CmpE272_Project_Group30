@@ -2,7 +2,7 @@
 
 This is our node express web application which helps teams prototype and wireframe project ideas. 
 
-#### Demo running on heroku 
+#### Demo running on AWS and Heroku
 [Live Demo on AWS](http://ec2-54-193-54-240.us-west-1.compute.amazonaws.com:3001/)
 
 [Live Demo on Heroku](http://cmpe272-project-group30.herokuapp.com/)
