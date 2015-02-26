@@ -4,7 +4,7 @@ This is our node express web application which helps teams prototype and wirefra
 
 ### Demo running on Heroku
 
-[Live Demo on Heroku](http://cmpe272-project-group30.herokuapp.com/)
+[Live Demo on Heroku](https://cmpe272-project-group30.herokuapp.com/projects)
 
 ## Pre-Install 
 1. Install [Git](http://git-scm.com/book/en/Getting-Started-Installing-Git) 
